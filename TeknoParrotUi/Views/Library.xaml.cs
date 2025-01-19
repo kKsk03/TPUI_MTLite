@@ -1,23 +1,18 @@
-﻿using System;
+﻿using Linearstar.Windows.RawInput;
+using System;
 using System.Collections.Generic;
-using System.ComponentModel;
-using System.Linq;
 using System.Diagnostics;
 using System.IO;
+using System.IO.Compression;
+using System.Linq;
+using System.Net;
+using System.Security.Principal;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media.Imaging;
-using System.Xml;
-using System.Xml.Serialization;
 using TeknoParrotUi.Common;
-using Microsoft.Win32;
-using TeknoParrotUi.UserControls;
-using System.Security.Principal;
-using System.IO.Compression;
-using System.Net;
 using TeknoParrotUi.Helpers;
-using ControlzEx.Standard;
-using Linearstar.Windows.RawInput;
+using TeknoParrotUi.UserControls;
 
 namespace TeknoParrotUi.Views
 {
@@ -33,17 +28,6 @@ namespace TeknoParrotUi.Views
         private ContentControl _contentControl;
         public bool listRefreshNeeded = false;
 
-        public void UpdatePatronText()
-        {
-            using (var key = Registry.CurrentUser.OpenSubKey(@"SOFTWARE\TeknoGods\TeknoParrot"))
-            {
-                var isPatron = key != null && key.GetValue("PatreonSerialKey") != null;
-
-                if (isPatron)
-                    textBlockPatron.Text = "Yes";
-            }
-        }
-
         public Library(ContentControl contentControl)
         {
             InitializeComponent();
@@ -53,10 +37,8 @@ namespace TeknoParrotUi.Views
 
             gameIcon.Source = imageBitmap;
 
-            UpdatePatronText();
-
             _contentControl = contentControl;
-            Joystick =  new JoystickControl(contentControl, this);
+            Joystick = new JoystickControl(contentControl, this);
         }
 
         public static BitmapImage defaultIcon = new BitmapImage(new Uri("../Resources/teknoparrot_by_pooterman-db9erxd.png", UriKind.Relative));
@@ -142,7 +124,7 @@ namespace TeknoParrotUi.Views
             if (gameList.Items.Count == 0)
                 return;
 
-            var modifyItem = (ListBoxItem) ((ListBox) sender).SelectedItem;
+            var modifyItem = (ListBoxItem)((ListBox)sender).SelectedItem;
             var profile = _gameNames[gameList.SelectedIndex];
             UpdateIcon(profile.IconName.Split('/')[1], ref gameIcon);
 
@@ -251,13 +233,6 @@ namespace TeknoParrotUi.Views
         {
             if (gameList.Items.Count == 0 || listRefreshNeeded)
                 ListUpdate();
-
-            if (Application.Current.Windows.OfType<MainWindow>().Single()._updaterComplete)
-            {
-                Application.Current.Windows.OfType<MainWindow>().Single().updates = new List<GitHubUpdates>();
-                Application.Current.Windows.OfType<MainWindow>().Single().checkForUpdates(true);
-                Application.Current.Windows.OfType<MainWindow>().Single()._updaterComplete = false;
-            }
         }
 
         /// <summary>
@@ -581,7 +556,7 @@ namespace TeknoParrotUi.Views
             if (gameList.Items.Count == 0)
                 return;
 
-            var gameProfile = (GameProfile) ((ListBoxItem) gameList.SelectedItem).Tag;
+            var gameProfile = (GameProfile)((ListBoxItem)gameList.SelectedItem).Tag;
 
             if (Lazydata.ParrotData.SaveLastPlayed)
             {

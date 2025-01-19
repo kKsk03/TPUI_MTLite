@@ -2,18 +2,9 @@
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
-using System.Text;
-using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
 using TeknoParrotUi.Helpers;
 
 namespace TeknoParrotUi.Views
@@ -59,22 +50,22 @@ namespace TeknoParrotUi.Views
                     }
                 });
 
-                    List<DownloadControl> blah = new List<DownloadControl>();
-                    while (blah.Count < count)
+                List<DownloadControl> blah = new List<DownloadControl>();
+                while (blah.Count < count)
+                {
+                    foreach (DownloadControl d in child)
                     {
-                        foreach (DownloadControl d in child)
+                        if (d.isFinished && !blah.Contains(d))
                         {
-                            if (d.isFinished && !blah.Contains(d))
-                            {
-                                blah.Add(d);
-                            }
-                        }
-
-                        if (blah.Count == child.Count)
-                        {
-                            break;
+                            blah.Add(d);
                         }
                     }
+
+                    if (blah.Count == child.Count)
+                    {
+                        break;
+                    }
+                }
             });
             return;
         }
@@ -86,7 +77,7 @@ namespace TeknoParrotUi.Views
             List<DownloadControl> downloads = new List<DownloadControl>();
             foreach (GitHubUpdates g in updaterList.Children)
             {
-                if (g.isSelectedForUpdate.IsChecked == true) 
+                if (g.isSelectedForUpdate.IsChecked == true)
                 {
                     var dw = g.DoUpdate();
                     downloads.Add(dw);
@@ -125,7 +116,7 @@ namespace TeknoParrotUi.Views
                     }
                 }
 
-                
+
             }
             else
             {
@@ -136,13 +127,13 @@ namespace TeknoParrotUi.Views
 
         private void buttonCancel_Click(object sender, RoutedEventArgs e)
         {
-            Application.Current.Windows.OfType<MainWindow>().Single()._updaterComplete = true;
+            //Application.Current.Windows.OfType<MainWindow>().Single()._updaterComplete = true;
             _contentControl.Content = _library;
         }
 
         private void UserControl_Unloaded(object sender, RoutedEventArgs e)
         {
-            Application.Current.Windows.OfType<MainWindow>().Single()._updaterComplete = true;
+            //Application.Current.Windows.OfType<MainWindow>().Single()._updaterComplete = true;
         }
     }
 }

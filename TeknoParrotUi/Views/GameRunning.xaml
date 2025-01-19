@@ -10,10 +10,10 @@
              mc:Ignorable="d" 
              d:DesignHeight="800" d:DesignWidth="800" Loaded="GameRunning_OnLoaded" Unloaded="GameRunning_OnUnloaded">
     <Grid>
-        <TextBlock x:Name="gameRunning" HorizontalAlignment="Left" Margin="240,73,0,0" TextWrapping="Wrap" Text="{x:Static p:Resources.GameRunning}" VerticalAlignment="Top" Height="69" Width="319" FontSize="48"/>
+        <TextBlock x:Name="gameRunning" HorizontalAlignment="Left" Margin="240,73,0,0" TextWrapping="Wrap" Text="{x:Static p:Resources.GameRunning}" VerticalAlignment="Top" Height="69" Width="319" FontSize="48" FontFamily="Microsoft YaHei"/>
         <ProgressBar x:Name="progressBar" IsIndeterminate="True" Margin="30,0,28,444" VerticalAlignment="Bottom" Height="17" />
-        <TextBlock x:Name="gameName" HorizontalAlignment="Left" Margin="0,207,0,0" TextWrapping="Wrap" Text="Game Name" VerticalAlignment="Top" Height="42" Width="790" FontSize="24" TextAlignment="Center"/>
-        <TextBox x:Name="textBoxConsole" HorizontalAlignment="Left" Height="265" Margin="30,414,0,0" TextWrapping="Wrap" Text="Output" VerticalAlignment="Top" Width="742" IsReadOnly="True"/>
-        <Button x:Name="buttonForceQuit" Content="{x:Static p:Resources.GameRunningForceQuit}" HorizontalAlignment="Left" Margin="275,377,0,0" VerticalAlignment="Top" Width="233" Click="ButtonForceQuit_Click"/>
+        <TextBlock x:Name="gameName" HorizontalAlignment="Left" Margin="0,207,0,0" TextWrapping="Wrap" Text="Game Name" VerticalAlignment="Top" Height="42" Width="790" FontSize="24" TextAlignment="Center" FontFamily="Microsoft YaHei"/>
+        <TextBox x:Name="textBoxConsole" HorizontalAlignment="Left" Height="265" Margin="30,414,0,0" TextWrapping="Wrap" Text="Output" VerticalAlignment="Top" Width="742" IsReadOnly="True" FontFamily="Microsoft YaHei"/>
+        <Button x:Name="buttonForceQuit" Content="{x:Static p:Resources.GameRunningForceQuit}" HorizontalAlignment="Left" Margin="275,377,0,0" VerticalAlignment="Top" Width="233" Click="ButtonForceQuit_Click" FontFamily="Microsoft YaHei"/>
     </Grid>
 </UserControl>

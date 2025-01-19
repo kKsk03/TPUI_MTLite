@@ -1,6 +1,4 @@
 ﻿using System.Diagnostics;
-using System.IO;
-using System.Reflection;
 using System.Windows.Controls;
 using System.Windows.Input;
 using static TeknoParrotUi.MainWindow;
@@ -14,7 +12,7 @@ namespace TeknoParrotUi.Views
     {
         public void UpdateVersions()
         {
-            versionText.Text = GameVersion.CurrentVersion;
+            versionText.Text = "1.0"; // GameVersion.CurrentVersion;
             components.Items.Clear();
             foreach (var component in MainWindow.components)
             {

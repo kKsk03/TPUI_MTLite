@@ -25,44 +25,44 @@
         <Viewbox Margin="10,10,10,10" Grid.Column="1" Grid.Row="1">
             <ScrollViewer VerticalScrollBarVisibility="Auto">
                 <StackPanel Width="600">
-                    <CheckBox Name="ChkSaveLastPlayed" HorizontalAlignment="Center" Content="{x:Static p:Resources.SettingsLoadLastPlayed}"/>
-                    <CheckBox Name="ChkUseDiscordRPC" HorizontalAlignment="Center" Content="{x:Static p:Resources.SettingsShowGameOnDiscord}"/>
-                    <CheckBox Name="ChkCheckForUpdates" HorizontalAlignment="Center" Content="{x:Static p:Resources.SettingsCheckForUpdates}"/>
-                    <CheckBox Name="ChkSilentMode" HorizontalAlignment="Center" Content="{x:Static p:Resources.SettingsHideConsoleWindows}"/>
-                    <CheckBox Name="ChkConfirmExit" HorizontalAlignment="Center" Content="{x:Static p:Resources.SettingsConfirmExit}"/>
-                    <CheckBox Name="ChkDownloadIcons" HorizontalAlignment="Center" Content="{x:Static p:Resources.SettingsDownloadIcon}"/>
-                    <CheckBox Name="ChkUiDisableHardwareAcceleration" HorizontalAlignment="Center" Content="{x:Static p:Resources.SettingsHardwareAccel}"/>
-                    <CheckBox Name="ChkUiDarkMode" HorizontalAlignment="Center" Content="{x:Static p:Resources.SettingsUIDarkMode}" Checked="ChkTheme_Checked" Unchecked="ChkTheme_Checked"/>
-                    <CheckBox Name="ChkUiHolidayThemes" HorizontalAlignment="Center" Content="{x:Static p:Resources.SettingsUIHolidayThemes}" Checked="ChkTheme_Checked" Unchecked="ChkTheme_Checked"/>
+                    <CheckBox Name="ChkSaveLastPlayed" HorizontalAlignment="Center" Content="{x:Static p:Resources.SettingsLoadLastPlayed}" FontFamily="Microsoft YaHei"/>
+                    <CheckBox Name="ChkUseDiscordRPC" HorizontalAlignment="Center" Content="{x:Static p:Resources.SettingsShowGameOnDiscord}" FontFamily="Microsoft YaHei"/>
+                    <CheckBox Name="ChkCheckForUpdates" HorizontalAlignment="Center" Content="{x:Static p:Resources.SettingsCheckForUpdates}" FontFamily="Microsoft YaHei"/>
+                    <CheckBox Name="ChkSilentMode" HorizontalAlignment="Center" Content="{x:Static p:Resources.SettingsHideConsoleWindows}" FontFamily="Microsoft YaHei"/>
+                    <CheckBox Name="ChkConfirmExit" HorizontalAlignment="Center" Content="{x:Static p:Resources.SettingsConfirmExit}" FontFamily="Microsoft YaHei"/>
+                    <CheckBox Name="ChkDownloadIcons" HorizontalAlignment="Center" Content="{x:Static p:Resources.SettingsDownloadIcon}" FontFamily="Microsoft YaHei"/>
+                    <CheckBox Name="ChkUiDisableHardwareAcceleration" HorizontalAlignment="Center" Content="{x:Static p:Resources.SettingsHardwareAccel}" FontFamily="Microsoft YaHei"/>
+                    <CheckBox Name="ChkUiDarkMode" HorizontalAlignment="Center" Content="{x:Static p:Resources.SettingsUIDarkMode}" Checked="ChkTheme_Checked" Unchecked="ChkTheme_Checked" FontFamily="Microsoft YaHei"/>
+                    <CheckBox Name="ChkUiHolidayThemes" HorizontalAlignment="Center" Content="{x:Static p:Resources.SettingsUIHolidayThemes}" Checked="ChkTheme_Checked" Unchecked="ChkTheme_Checked" FontFamily="Microsoft YaHei"/>
                     <Separator/>
                     <StackPanel Name="UiPatreon">
-                        <Label Content="{x:Static p:Resources.SettingsUICustomization}" HorizontalAlignment="Center" FontSize="30"/>
-                        <Label Content="{x:Static p:Resources.SettingsUIColour}" HorizontalAlignment="Center" FontSize="15"/>
-                        <ComboBox Name="UiColour" HorizontalAlignment="Center" SelectionChanged="UiColour_SelectionChanged"/>
+                        <Label Content="{x:Static p:Resources.SettingsUICustomization}" HorizontalAlignment="Center" FontSize="30" FontFamily="Microsoft YaHei"/>
+                        <Label Content="{x:Static p:Resources.SettingsUIColour}" HorizontalAlignment="Center" FontSize="15" FontFamily="Microsoft YaHei"/>
+                        <ComboBox Name="UiColour" HorizontalAlignment="Center" SelectionChanged="UiColour_SelectionChanged" FontFamily="Microsoft YaHei"/>
                         <Separator/>
                     </StackPanel>
-                    <CheckBox Margin="0,10,0,0" Name="ChkUseSto0ZCheckBox" Content="{x:Static p:Resources.SettingsSto0zZone}" HorizontalAlignment="Center"/>
+                    <CheckBox Margin="0,10,0,0" Name="ChkUseSto0ZCheckBox" Content="{x:Static p:Resources.SettingsSto0zZone}" HorizontalAlignment="Center" FontFamily="Microsoft YaHei"/>
                     <DockPanel VerticalAlignment="Center" Margin="10">
                         <TextBlock Text="{Binding ElementName=sTo0zZonePercent, Path=Value, UpdateSourceTrigger=PropertyChanged, StringFormat='\{0\}%'}" DockPanel.Dock="Right" TextAlignment="Right" Width="40" />
                         <Slider IsMoveToPointEnabled="True" Margin="0,0,10,0" Minimum="0" Maximum="100" TickPlacement="BottomRight" TickFrequency="2" IsSnapToTickEnabled="True" Name="sTo0zZonePercent"/>
                     </DockPanel>
                     <Separator/>
-                    <Label Content="{x:Static p:Resources.SettingsDInputWheel}" HorizontalAlignment="Center" FontSize="20"></Label>
-                    <CheckBox Name="ChkFullAxisGas" Content="{x:Static p:Resources.SettingsFullGas}" HorizontalAlignment="Center"/>
-                    <CheckBox Name="ChkFullAxisBrake" Content="{x:Static p:Resources.SettingsFullBrake}" HorizontalAlignment="Center"/>
-                    <CheckBox Name="ChkReverseAxisGas" Content="{x:Static p:Resources.SettingsReverseGas}" HorizontalAlignment="Center"/>
-                    <CheckBox Name="ChkReverseAxisBrake" Content="{x:Static p:Resources.SettingsReverseBrake}" HorizontalAlignment="Center"/>
+                    <Label Content="{x:Static p:Resources.SettingsDInputWheel}" HorizontalAlignment="Center" FontSize="20" FontFamily="Microsoft YaHei"></Label>
+                    <CheckBox Name="ChkFullAxisGas" Content="{x:Static p:Resources.SettingsFullGas}" HorizontalAlignment="Center" FontFamily="Microsoft YaHei"/>
+                    <CheckBox Name="ChkFullAxisBrake" Content="{x:Static p:Resources.SettingsFullBrake}" HorizontalAlignment="Center" FontFamily="Microsoft YaHei"/>
+                    <CheckBox Name="ChkReverseAxisGas" Content="{x:Static p:Resources.SettingsReverseGas}" HorizontalAlignment="Center" FontFamily="Microsoft YaHei"/>
+                    <CheckBox Name="ChkReverseAxisBrake" Content="{x:Static p:Resources.SettingsReverseBrake}" HorizontalAlignment="Center" FontFamily="Microsoft YaHei"/>
                     <TextBlock><Run Text=" "/><Run Text=" "/><Run Text=" "/></TextBlock>
-                    <Label Content="Global Hotkeys" HorizontalAlignment="Center" FontSize="20"></Label>
-                    <Label Content="Exit Game Key" FontSize="15" HorizontalAlignment="Center"/>
-                    <TextBox x:Name="textBoxExitGameKey" Text="0x1B" TextAlignment="Center" ToolTip="Virtual-Key Code Hex Value" Width="100"></TextBox>
-                    <Label Content="Pause Game Key" FontSize="15" HorizontalAlignment="Center"/>
-                    <TextBox x:Name="textBoxPauseGameKey" Text="0x13" TextAlignment="Center" ToolTip="Virtual-Key Code Hex Value" Width="100"></TextBox>
+                    <Label Content="Global Hotkeys" HorizontalAlignment="Center" FontSize="20" FontFamily="Microsoft YaHei"></Label>
+                    <Label Content="Exit Game Key" FontSize="15" HorizontalAlignment="Center" FontFamily="Microsoft YaHei"/>
+                    <TextBox x:Name="textBoxExitGameKey" Text="0x1B" TextAlignment="Center" ToolTip="Virtual-Key Code Hex Value" Width="100" FontFamily="Microsoft YaHei"></TextBox>
+                    <Label Content="Pause Game Key" FontSize="15" HorizontalAlignment="Center" FontFamily="Microsoft YaHei"/>
+                    <TextBox x:Name="textBoxPauseGameKey" Text="0x13" TextAlignment="Center" ToolTip="Virtual-Key Code Hex Value" Width="100" FontFamily="Microsoft YaHei"></TextBox>
                     <TextBlock><Run Text=" "/><Run Text=" "/><Run Text=" "/></TextBlock>
-                    <Button Click="BtnVKCPage" Content="Virtual-Key Codes"/>
-                    <Button Click="BtnFfbProfiles" Content="{x:Static p:Resources.SettingsDownloadFFB}"/>
-                    <Button Click="BtnSaveSettings" Content="{x:Static p:Resources.SettingsSaveSettings}"/>
-                    <Button Click="BtnGoBack" Content="{x:Static p:Resources.Back}"/>
+                    <Button Click="BtnVKCPage" Content="Virtual-Key Codes" FontFamily="Microsoft YaHei"/>
+                    <Button Click="BtnFfbProfiles" Content="{x:Static p:Resources.SettingsDownloadFFB}" FontFamily="Microsoft YaHei"/>
+                    <Button Click="BtnSaveSettings" Content="{x:Static p:Resources.SettingsSaveSettings}" FontFamily="Microsoft YaHei"/>
+                    <Button Click="BtnGoBack" Content="{x:Static p:Resources.Back}" FontFamily="Microsoft YaHei"/>
                 </StackPanel>
             </ScrollViewer>
         </Viewbox>

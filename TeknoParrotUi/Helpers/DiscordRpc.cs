@@ -3,12 +3,8 @@
 //A few small changes have been made.
 using System;
 using System.Collections.Generic;
-using System.IO;
-using System.IO.Compression;
-using System.Net;
 using System.Runtime.InteropServices;
 using System.Text;
-using System.Windows;
 using TeknoParrotUi.Common;
 
 public class DiscordRPC
@@ -75,29 +71,6 @@ public class DiscordRPC
     {
         try
         {
-            // download the DLL if it doesn't exist
-            if (!File.Exists(RPC_PATH))
-            {
-                var request = (HttpWebRequest)WebRequest.Create("https://github.com/discordapp/discord-rpc/releases/download/v3.4.0/discord-rpc-win.zip");
-                request.Timeout = 10000;
-                request.Proxy = null;
-
-                using (var response = request.GetResponse().GetResponseStream())
-                using (var zip = new ZipArchive(response, ZipArchiveMode.Read))
-                {
-                    foreach (var entry in zip.Entries)
-                    {
-                        if (entry.FullName == "discord-rpc/win32-dynamic/bin/discord-rpc.dll")
-                        {
-                            using (var entryStream = entry.Open())
-                            using (var dll = File.Create(RPC_PATH))
-                            {
-                                entryStream.CopyTo(dll);
-                            }
-                        }
-                    }
-                }
-            }
 
             // calling Initialize / Shutdown if the library is already/hasn't been initialized is fine.
             if (Lazydata.ParrotData.UseDiscordRPC)

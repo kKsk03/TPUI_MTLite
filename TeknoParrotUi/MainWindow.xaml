@@ -32,19 +32,15 @@
     <materialDesign:DialogHost>
         <materialDesign:DrawerHost LeftDrawerBackground="{DynamicResource MaterialDesignPaper}" x:Name="DrawerHost">
             <materialDesign:DrawerHost.LeftDrawerContent>
-                <StackPanel Width="170" Margin="5">
+                <StackPanel Width="170" Margin="5" VerticalAlignment="Top">
                     <ToggleButton Style="{StaticResource MaterialDesignHamburgerToggleButton}" 
                               IsChecked="{Binding IsLeftDrawerOpen, ElementName=DrawerHost}"
                               HorizontalAlignment="Right"/>
-                    <Button Content="{x:Static p:Resources.MainLibrary}" Margin="0,0,0,10"  Command="{x:Static materialDesign:DrawerHost.CloseDrawerCommand}" CommandParameter="{x:Static Dock.Left}" Click="BtnLibrary"/>
-                    <Button Content="{x:Static p:Resources.AddGame}" Margin="0,0,0,10" Command="{x:Static materialDesign:DrawerHost.CloseDrawerCommand}" CommandParameter="{x:Static Dock.Left}" Click="BtnAddGame"/>
-                    <Button Content="{x:Static p:Resources.MainSettings}" Margin="0,0,0,10" Command="{x:Static materialDesign:DrawerHost.CloseDrawerCommand}" CommandParameter="{x:Static Dock.Left}" Click="BtnSettings" />
-                    <Button Content="{x:Static p:Resources.MainTPOnline}" Margin="0,0,0,10" Command="{x:Static materialDesign:DrawerHost.CloseDrawerCommand}" CommandParameter="{x:Static Dock.Left}" Click="BtnTPOnline" />
-                    <Button Content="Mods" Margin="0,0,0,10" Command="{x:Static materialDesign:DrawerHost.CloseDrawerCommand}" CommandParameter="{x:Static Dock.Left}" Click="BtnDebug" />
-                    <Button x:Name="updateButton" Content="Install Updates" Visibility="Hidden" Margin="0,0,0,10" Command="{x:Static materialDesign:DrawerHost.CloseDrawerCommand}" CommandParameter="{x:Static Dock.Left}" Click="Button_Click_1" Background="Lime" BorderBrush="Lime" />
-                    <Button Content="Patreon" Margin="0,0,0,10" Command="{x:Static materialDesign:DrawerHost.CloseDrawerCommand}" CommandParameter="{x:Static Dock.Left}" Click="BtnPatreon" />
-                    <Button Content="{x:Static p:Resources.MainAbout}" Margin="0,0,0,170" Command="{x:Static materialDesign:DrawerHost.CloseDrawerCommand}" CommandParameter="{x:Static Dock.Left}" Click="BtnAbout"/>
-                    <Button Content="{x:Static p:Resources.MainQuit}" Margin="0,0,0,10" Command="{x:Static materialDesign:DrawerHost.CloseDrawerCommand}" CommandParameter="{x:Static Dock.Left}" Click="BtnQuit"/>
+                    <Button Content="{x:Static p:Resources.MainLibrary}" Margin="0,0,0,10"  Command="{x:Static materialDesign:DrawerHost.CloseDrawerCommand}" CommandParameter="{x:Static Dock.Left}" Click="BtnLibrary" FontFamily="Microsoft YaHei UI"/>
+                    <Button Content="{x:Static p:Resources.AddGame}" Margin="0,0,0,10" Command="{x:Static materialDesign:DrawerHost.CloseDrawerCommand}" CommandParameter="{x:Static Dock.Left}" Click="BtnAddGame" FontFamily="Microsoft YaHei UI"/>
+                    <Button Content="{x:Static p:Resources.MainSettings}" Margin="0,0,0,10" Command="{x:Static materialDesign:DrawerHost.CloseDrawerCommand}" CommandParameter="{x:Static Dock.Left}" Click="BtnSettings" FontFamily="Microsoft YaHei UI" />
+                    <Button Content="{x:Static p:Resources.MainAbout}" Margin="0,0,0,10" Command="{x:Static materialDesign:DrawerHost.CloseDrawerCommand}" CommandParameter="{x:Static Dock.Left}" Click="BtnAbout" FontFamily="Microsoft YaHei UI"/>
+                    <Button Content="{x:Static p:Resources.MainQuit}" Margin="0,0,0,10" Command="{x:Static materialDesign:DrawerHost.CloseDrawerCommand}" CommandParameter="{x:Static Dock.Left}" Click="BtnQuit" VerticalAlignment="Bottom" FontFamily="Microsoft YaHei UI"/>
                 </StackPanel>
             </materialDesign:DrawerHost.LeftDrawerContent>
             <Grid>
@@ -82,7 +78,7 @@
                         </Button>
                         <TextBlock x:Name="WebSource"
                                VerticalAlignment="Center" 
-                               Grid.Column="1" Text="TeknoParrot UI" Margin="232,6,10,5" FontSize="20" Grid.RowSpan="2" Height="24" />
+                               Grid.Column="1" Text="TPUI Lite" Margin="232,6,10,5" FontSize="20" Grid.RowSpan="2" Height="24" />
                         <TextBlock x:Name="versionText"
                         VerticalAlignment="Center" 
                         Grid.Column="3" Text="X.X.X.XX" Margin="10,6,10,5" FontSize="20" Grid.RowSpan="2" Height="24" />

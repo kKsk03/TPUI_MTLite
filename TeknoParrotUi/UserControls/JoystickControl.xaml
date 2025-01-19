@@ -64,7 +64,7 @@
                 </HeaderedItemsControl.ItemTemplate>
             </HeaderedItemsControl>
         </ScrollViewer>
-        <Button Content="{x:Static p:Resources.SettingsSaveSettings}" MaxHeight="40" Click="ButtonBase_OnClick" Margin="4,5,2,7" Height="Auto" Grid.Row="2" Grid.Column="1"/>
+        <Button Content="{x:Static p:Resources.SettingsSaveSettings}" MaxHeight="40" Click="ButtonBase_OnClick" Margin="4,5,2,7" Height="Auto" Grid.Row="2" Grid.Column="1" FontFamily="Microsoft YaHei"/>
         <Button Content="{x:Static p:Resources.Back}" MaxHeight="40" Click="JoystickGoBack_OnClick" Margin="4,2,2,1.5" Height="Auto" Grid.Row="3" Grid.Column="1"/>
     </Grid>
 </UserControl>
