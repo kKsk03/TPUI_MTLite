@@ -12,14 +12,14 @@
              d:DesignHeight="706" d:DesignWidth="800" Loaded="UserControl_Loaded">
     <Grid>
         <Grid.RowDefinitions>
-            <RowDefinition Height="7*"/>
-            <RowDefinition Height="44*"/>
-            <RowDefinition Height="240*"/>
-            <RowDefinition Height="121*"/>
-            <RowDefinition Height="60*"/>
-            <RowDefinition Height="60*"/>
-            <RowDefinition Height="60*"/>
-            <RowDefinition Height="60*"/>
+            <RowDefinition Height="8*"/>
+            <RowDefinition Height="48*"/>
+            <RowDefinition Height="228*"/>
+            <RowDefinition Height="162*"/>
+            <RowDefinition Height="50*"/>
+            <RowDefinition Height="50*"/>
+            <RowDefinition Height="50*"/>
+            <RowDefinition Height="50*"/>
         </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="21*"/>
@@ -31,12 +31,12 @@
         <Viewbox Stretch="UniformToFill"  Margin="10,4,358,4" Grid.RowSpan="2">
             <Label Content="{x:Static p:Resources.GameList}" Margin="10,7,392,2" RenderTransformOrigin="0.704,1.118" FontFamily="Microsoft YaHei" FontSize="18" Grid.Row="1"/>
         </Viewbox>
-        <ScrollViewer Grid.Row="2" Grid.Column="1" Margin="11,236,8,15" Grid.RowSpan="2">
+        <ScrollViewer Grid.Row="3" Grid.Column="1" Margin="11,1,8,15">
             <TextBlock x:Name="gameInfoText" HorizontalAlignment="Left" TextWrapping="Wrap" Text="{x:Static p:Resources.LibraryNoInfo}" Width="256" TextAlignment="Center" FontSize="14" Grid.Column="1" Grid.Row="3" FontFamily="Microsoft YaHei"/>
         </ScrollViewer>
-        <Button Content="{x:Static p:Resources.LibraryMoreInfo}" HorizontalAlignment="Center" Margin="0,4,0,4" Width="256" Click="BtnMoreInfo" Grid.Column="1" Grid.Row="4" Height="Auto" FontFamily="Microsoft YaHei"/>
-        <Button Content="{x:Static p:Resources.LibraryLaunchGame}" HorizontalAlignment="Center" Margin="0,4,0,4" Width="256" Click="BtnLaunchGame" Grid.Column="1" Grid.Row="5" Height="Auto" FontFamily="Microsoft YaHei"/>
-        <Button Content="{x:Static p:Resources.LibraryGameSettings}" HorizontalAlignment="Center" Width="256" Click="BtnGameSettings" Grid.Column="1" Grid.Row="6" FontFamily="Microsoft YaHei" Margin="0,4,0,0" Height="57" VerticalAlignment="Top"/>
-        <Button Content="{x:Static p:Resources.LibraryControllerSetup}" HorizontalAlignment="Center" Margin="0,4,0,10" Width="256" Click="BtnControllerSettings" Grid.Column="1" Grid.Row="7" Height="Auto" FontFamily="Microsoft YaHei"/>
+        <Button Content="{x:Static p:Resources.LibraryMoreInfo}" HorizontalAlignment="Center" Margin="0,3,0,0" Width="256" Click="BtnMoreInfo" Grid.Column="1" Grid.Row="4" Height="49" FontFamily="Microsoft YaHei" VerticalAlignment="Top"/>
+        <Button Content="{x:Static p:Resources.LibraryLaunchGame}" HorizontalAlignment="Center" Margin="0,3,0,0" Width="256" Click="BtnLaunchGame" Grid.Column="1" Grid.Row="5" Height="49" FontFamily="Microsoft YaHei" VerticalAlignment="Top"/>
+        <Button Content="{x:Static p:Resources.LibraryGameSettings}" HorizontalAlignment="Center" Width="256" Click="BtnGameSettings" Grid.Column="1" Grid.Row="6" FontFamily="Microsoft YaHei" Margin="0,3,0,0" Height="48" VerticalAlignment="Top"/>
+        <Button Content="{x:Static p:Resources.LibraryControllerSetup}" HorizontalAlignment="Center" Margin="0,3,0,0" Width="256" Click="BtnControllerSettings" Grid.Column="1" Grid.Row="7" FontFamily="Microsoft YaHei" Height="46" VerticalAlignment="Top"/>
     </Grid>
 </UserControl>

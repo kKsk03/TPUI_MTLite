@@ -25,15 +25,15 @@
         <Viewbox Margin="10,10,10,10" Grid.Column="1" Grid.Row="1">
             <ScrollViewer VerticalScrollBarVisibility="Auto">
                 <StackPanel Width="600">
-                    <CheckBox Name="ChkSaveLastPlayed" HorizontalAlignment="Center" Content="{x:Static p:Resources.SettingsLoadLastPlayed}" FontFamily="Microsoft YaHei"/>
-                    <CheckBox Name="ChkUseDiscordRPC" HorizontalAlignment="Center" Content="{x:Static p:Resources.SettingsShowGameOnDiscord}" FontFamily="Microsoft YaHei"/>
-                    <CheckBox Name="ChkCheckForUpdates" HorizontalAlignment="Center" Content="{x:Static p:Resources.SettingsCheckForUpdates}" FontFamily="Microsoft YaHei"/>
+                    <CheckBox Name="ChkSaveLastPlayed" HorizontalAlignment="Center" Content="{x:Static p:Resources.SettingsLoadLastPlayed}" FontFamily="Microsoft YaHei" IsEnabled="False"/>
+                    <CheckBox Name="ChkUseDiscordRPC" HorizontalAlignment="Center" Content="{x:Static p:Resources.SettingsShowGameOnDiscord}" FontFamily="Microsoft YaHei" IsEnabled="False"/>
+                    <CheckBox Name="ChkCheckForUpdates" HorizontalAlignment="Center" Content="{x:Static p:Resources.SettingsCheckForUpdates}" FontFamily="Microsoft YaHei" IsEnabled="False"/>
                     <CheckBox Name="ChkSilentMode" HorizontalAlignment="Center" Content="{x:Static p:Resources.SettingsHideConsoleWindows}" FontFamily="Microsoft YaHei"/>
                     <CheckBox Name="ChkConfirmExit" HorizontalAlignment="Center" Content="{x:Static p:Resources.SettingsConfirmExit}" FontFamily="Microsoft YaHei"/>
-                    <CheckBox Name="ChkDownloadIcons" HorizontalAlignment="Center" Content="{x:Static p:Resources.SettingsDownloadIcon}" FontFamily="Microsoft YaHei"/>
+                    <CheckBox Name="ChkDownloadIcons" HorizontalAlignment="Center" Content="{x:Static p:Resources.SettingsDownloadIcon}" FontFamily="Microsoft YaHei" IsEnabled="False"/>
                     <CheckBox Name="ChkUiDisableHardwareAcceleration" HorizontalAlignment="Center" Content="{x:Static p:Resources.SettingsHardwareAccel}" FontFamily="Microsoft YaHei"/>
                     <CheckBox Name="ChkUiDarkMode" HorizontalAlignment="Center" Content="{x:Static p:Resources.SettingsUIDarkMode}" Checked="ChkTheme_Checked" Unchecked="ChkTheme_Checked" FontFamily="Microsoft YaHei"/>
-                    <CheckBox Name="ChkUiHolidayThemes" HorizontalAlignment="Center" Content="{x:Static p:Resources.SettingsUIHolidayThemes}" Checked="ChkTheme_Checked" Unchecked="ChkTheme_Checked" FontFamily="Microsoft YaHei"/>
+                    <CheckBox Name="ChkUiHolidayThemes" HorizontalAlignment="Center" Content="{x:Static p:Resources.SettingsUIHolidayThemes}" Checked="ChkTheme_Checked" Unchecked="ChkTheme_Checked" FontFamily="Microsoft YaHei" IsEnabled="False"/>
                     <Separator/>
                     <StackPanel Name="UiPatreon">
                         <Label Content="{x:Static p:Resources.SettingsUICustomization}" HorizontalAlignment="Center" FontSize="30" FontFamily="Microsoft YaHei"/>
