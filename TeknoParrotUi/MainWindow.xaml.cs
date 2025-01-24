@@ -117,6 +117,7 @@ namespace TeknoParrotUi
                 Margin = new Thickness(4),
                 TextWrapping = TextWrapping.WrapWithOverflow,
                 FontSize = 18,
+                FontFamily = new FontFamily("Microsoft YaHei"),
                 Text = Properties.Resources.MainAreYouSure
             };
 
@@ -130,6 +131,7 @@ namespace TeknoParrotUi
                 Margin = new Thickness(5),
                 Command = DialogHost.CloseDialogCommand,
                 CommandParameter = true,
+                FontFamily = new FontFamily("Microsoft YaHei"),
                 Content = Properties.Resources.Yes
             });
             dck.Children.Add(new Button()
@@ -141,6 +143,7 @@ namespace TeknoParrotUi
                 Margin = new Thickness(5),
                 Command = DialogHost.CloseDialogCommand,
                 CommandParameter = false,
+                FontFamily = new FontFamily("Microsoft YaHei"),
                 Content = Properties.Resources.No
             });
 

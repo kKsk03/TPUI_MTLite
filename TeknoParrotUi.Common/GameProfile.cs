@@ -64,5 +64,10 @@ namespace TeknoParrotUi.Common
         {
             return GameName;
         }
+
+        public static implicit operator GameProfile(string v)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

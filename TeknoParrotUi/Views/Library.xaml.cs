@@ -130,16 +130,6 @@ namespace TeknoParrotUi.Views
 
             _gameSettings.LoadNewSettings(profile, modifyItem, _contentControl, this);
             Joystick.LoadNewSettings(profile, modifyItem);
-            if (!profile.HasSeparateTestMode)
-            {
-                ChkTestMenu.IsChecked = false;
-                ChkTestMenu.IsEnabled = false;
-            }
-            else
-            {
-                ChkTestMenu.IsEnabled = true;
-                ChkTestMenu.ToolTip = Properties.Resources.LibraryToggleTestMode;
-            }
             var selectedGame = _gameNames[gameList.SelectedIndex];
             gameInfoText.Text = $"{Properties.Resources.LibraryEmulator}: {selectedGame.EmulatorType} ({(selectedGame.Is64Bit ? "x64" : "x86")})\n{(selectedGame.GameInfo == null ? Properties.Resources.LibraryNoInfo : selectedGame.GameInfo.ToString())}";
         }
@@ -563,14 +553,6 @@ namespace TeknoParrotUi.Views
                 Lazydata.ParrotData.LastPlayed = gameProfile.GameName;
                 JoystickHelper.Serialize();
             }
-
-            var testMenu = ChkTestMenu.IsChecked;
-
-            if (ValidateAndRun(gameProfile, out var loader, out var dll, false, this, testMenu))
-            {
-                var gameRunning = new GameRunning(gameProfile, loader, dll, testMenu, false, false, this);
-                Application.Current.Windows.OfType<MainWindow>().Single().contentControl.Content = gameRunning;
-            }
         }
 
         /// <summary>
@@ -597,20 +579,7 @@ namespace TeknoParrotUi.Views
 
         private void BtnMoreInfo(object sender, RoutedEventArgs e)
         {
-            string path = string.Empty;
-
-            if (gameList.Items.Count != 0)
-            {
-                var selectedGame = _gameNames[gameList.SelectedIndex];
-
-                // open game compatibility page
-                if (selectedGame != null)
-                {
-                    path = "compatibility/" + Path.GetFileNameWithoutExtension(selectedGame.FileName) + ".htm";
-                }
-            }
-
-            var url = "https://teknogods.github.io/" + path;
+            var url = "https://wikiwiki.jp/wmmt/";
             Debug.WriteLine($"opening {url}");
             Process.Start(url);
         }

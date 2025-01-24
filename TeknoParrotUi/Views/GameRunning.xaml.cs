@@ -1,22 +1,22 @@
+using Linearstar.Windows.RawInput;
+using MahApps.Metro.Controls;
 using System;
-using System.Linq;
-using System.Windows;
 using System.Diagnostics;
 using System.IO;
+using System.Linq;
 using System.Net;
 using System.Runtime.InteropServices;
 using System.Text.RegularExpressions;
 using System.Threading;
+using System.Windows;
 using System.Windows.Input;
 using System.Windows.Interop;
 using System.Windows.Threading;
-using MahApps.Metro.Controls;
 using TeknoParrotUi.Common;
+using TeknoParrotUi.Common.InputListening;
 using TeknoParrotUi.Common.Jvs;
 using TeknoParrotUi.Common.Pipes;
 using TeknoParrotUi.Helpers;
-using Linearstar.Windows.RawInput;
-using TeknoParrotUi.Common.InputListening;
 
 namespace TeknoParrotUi.Views
 {
@@ -79,7 +79,7 @@ namespace TeknoParrotUi.Views
 
             if (!_isTest)
             {
-                if (_gameProfile.EmulationProfile == EmulationProfile.AfterBurnerClimax || _gameProfile.EmulationProfile == EmulationProfile.Outrun2SPX || _gameProfile.EmulationProfile == EmulationProfile.SegaInitialD || _gameProfile.EmulationProfile == EmulationProfile.SegaInitialDLindbergh || 
+                if (_gameProfile.EmulationProfile == EmulationProfile.AfterBurnerClimax || _gameProfile.EmulationProfile == EmulationProfile.Outrun2SPX || _gameProfile.EmulationProfile == EmulationProfile.SegaInitialD || _gameProfile.EmulationProfile == EmulationProfile.SegaInitialDLindbergh ||
                     _gameProfile.EmulationProfile == EmulationProfile.SegaJvsLetsGoIsland || _gameProfile.EmulationProfile == EmulationProfile.SegaRTuned || _gameProfile.EmulationProfile == EmulationProfile.SegaRtv || _gameProfile.EmulationProfile == EmulationProfile.SegaSonicAllStarsRacing ||
                     _gameProfile.EmulationProfile == EmulationProfile.Hotd4 || _gameProfile.EmulationProfile == EmulationProfile.VirtuaTennis4 || _gameProfile.EmulationProfile == EmulationProfile.Vt3Lindbergh || _gameProfile.EmulationProfile == EmulationProfile.SegaJvsGoldenGun ||
                     _gameProfile.EmulationProfile == EmulationProfile.Rambo || _gameProfile.EmulationProfile == EmulationProfile.SegaToolsIDZ || _gameProfile.EmulationProfile == EmulationProfile.HummerExtreme)
@@ -91,14 +91,14 @@ namespace TeknoParrotUi.Views
                             InputListenerXInput.DisableTestButton = true;
                         }
                     }
-                    else if(_inputApi == InputApi.DirectInput)
+                    else if (_inputApi == InputApi.DirectInput)
                     {
                         if (!InputListenerDirectInput.DisableTestButton)
                         {
                             InputListenerDirectInput.DisableTestButton = true;
                         }
                     }
-                } 
+                }
             }
             else
             {
@@ -323,7 +323,7 @@ namespace TeknoParrotUi.Views
                 File.WriteAllText(Path.Combine(Path.GetDirectoryName(_gameLocation2) ?? throw new InvalidOperationException(), "teknoparrot.ini"), lameFile);
             }
         }
-        
+
         private void GameRunning_OnLoaded(object sender, RoutedEventArgs e)
         {
             JvsPackageEmulator.Initialize();
@@ -365,11 +365,11 @@ namespace TeknoParrotUi.Views
             if (invertButtons)
             {
                 JvsPackageEmulator.InvertMaiMaiButtons = true;
-            } 
+            }
 
             bool flag = InputCode.ButtonMode == EmulationProfile.SegaJvsLetsGoIsland || InputCode.ButtonMode == EmulationProfile.SegaJvsLetsGoJungle || InputCode.ButtonMode == EmulationProfile.LuigisMansion;
             //fills 0, 2, 4, 6
-            for (int i = 0; i <= 6; i+=2)
+            for (int i = 0; i <= 6; i += 2)
             {
                 InputCode.AnalogBytes[i] = flag ? (byte)127 : (byte)0;
             }
@@ -427,15 +427,15 @@ namespace TeknoParrotUi.Views
                     break;
                 case EmulationProfile.StarTrekVoyager:
                     _controlSender = new StarTrekVoyagerPipe();
-                    break;                    
+                    break;
                 case EmulationProfile.SegaInitialD:
                 case EmulationProfile.SegaInitialDLindbergh:
                     if (RealGearShiftID)
-                    _controlSender = new SegaInitialDPipe();
-                    break; 
+                        _controlSender = new SegaInitialDPipe();
+                    break;
                 case EmulationProfile.TaitoTypeXBattleGear:
                     if (ProMode)
-                    _controlSender = new BG4ProPipe();
+                        _controlSender = new BG4ProPipe();
                     break;
                 case EmulationProfile.AliensExtermination:
                     _controlSender = new AliensExterminationPipe();
@@ -561,7 +561,7 @@ namespace TeknoParrotUi.Views
                     case EmulationProfile.ArcadeLove:
                         JvsPackageEmulator.DualJvsEmulation = true;
                         break;
-                    case EmulationProfile.LGS:  
+                    case EmulationProfile.LGS:
                         JvsPackageEmulator.JvsCommVersion = 0x30;
                         JvsPackageEmulator.JvsVersion = 0x30;
                         JvsPackageEmulator.JvsCommandRevision = 0x30;
@@ -727,12 +727,12 @@ namespace TeknoParrotUi.Views
                         extra = fullscreen ? "-fullscreen " : string.Empty;
                         break;
                     case EmulationProfile.NamcoPokken:
-                        if (width != null && short.TryParse(width.FieldValue, out var _width) && 
+                        if (width != null && short.TryParse(width.FieldValue, out var _width) &&
                             height != null && short.TryParse(height.FieldValue, out var _height))
                         {
                             extra = $"\"screen_width={_width}" + " " +
                                            $"screen_height={_height}\"";
-                        }                                
+                        }
                         break;
                     case EmulationProfile.GuiltyGearRE2:
                         var englishHack = (_gameProfile.ConfigValues.Any(x => x.FieldName == "EnglishHack" && x.FieldValue == "1"));
@@ -839,7 +839,7 @@ namespace TeknoParrotUi.Views
 
 
                 ProcessStartInfo info;
-                
+
                 if (_gameProfile.EmulationProfile == EmulationProfile.SegaToolsIDZ)
                 {
                     info = new ProcessStartInfo(loaderExe, $" -d -k {loaderDll}.dll {Path.GetFileName(_gameProfile.GamePath)}");
@@ -923,13 +923,13 @@ namespace TeknoParrotUi.Views
                     //check for DEVICE folder
                     if (Directory.Exists(gameDir + "\\DEVICE"))
                     {
-                        File.Copy(".\\SegaTools\\DEVICE\\billing.pub", gameDir + "\\DEVICE\\billing.pub",true);
-                        File.Copy(".\\SegaTools\\DEVICE\\ca.crt", gameDir + "\\DEVICE\\ca.crt",true);
+                        File.Copy(".\\SegaTools\\DEVICE\\billing.pub", gameDir + "\\DEVICE\\billing.pub", true);
+                        File.Copy(".\\SegaTools\\DEVICE\\ca.crt", gameDir + "\\DEVICE\\ca.crt", true);
                     }
                     else
                     {
                         Directory.CreateDirectory(gameDir + "\\DEVICE");
-                        File.Copy(".\\SegaTools\\DEVICE\\billing.pub",gameDir + "\\DEVICE\\billing.pub");
+                        File.Copy(".\\SegaTools\\DEVICE\\billing.pub", gameDir + "\\DEVICE\\billing.pub");
                         File.Copy(".\\SegaTools\\DEVICE\\ca.crt", gameDir + "\\DEVICE\\ca.crt");
                     }
 
@@ -949,7 +949,7 @@ namespace TeknoParrotUi.Views
                         amfsDir = Directory.GetParent(Directory.GetParent(gameDir).FullName).FullName;
                     }
                     amfsDir += "\\amfs";
-                    fileOutput = "[vfs]\namfs=" + amfsDir + "\nappdata="+ (Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData) + "\\TeknoParrot\\IDZ\\") + "\n\n[dns]\ndefault=" +
+                    fileOutput = "[vfs]\namfs=" + amfsDir + "\nappdata=" + (Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData) + "\\TeknoParrot\\IDZ\\") + "\n\n[dns]\ndefault=" +
                                  _gameProfile.ConfigValues.Find(x => x.FieldName.Equals("NetworkAdapterIP")).FieldValue + "\n\n[ds]\nregion";
                     if (_gameProfile.ConfigValues.Find(x => x.FieldName.Equals("ExportRegion")).FieldValue == "true" || _gameProfile.ConfigValues.Find(x => x.FieldName.Equals("ExportRegion")).FieldValue == "1")
                     {
@@ -986,7 +986,7 @@ namespace TeknoParrotUi.Views
                     }
 
                     fileOutput += "[io3]\nmode=";
-                    
+
                     fileOutput += "tp\n";
                     int shift = 0;
                     if (_gameProfile.ConfigValues.Find(x => x.FieldName.Equals("EnableRealShifter")).FieldValue == "true" || _gameProfile.ConfigValues.Find(x => x.FieldName.Equals("EnableRealShifter")).FieldValue == "1")
@@ -1001,7 +1001,7 @@ namespace TeknoParrotUi.Views
                     }
                     File.WriteAllText((Path.GetDirectoryName(_gameProfile.GamePath) + "\\segatools.ini"), fileOutput);
                     //RunAndWait(Path.GetDirectoryName(_gameProfile.GamePath) + "\\inject.exe",$" -d -k {loaderDll}.dll " + gameDir + "\\amdaemon.exe -c configDHCP_Final_Common.json configDHCP_Final_JP.json configDHCP_Final_JP_ST1.json configDHCP_Final_JP_ST2.json configDHCP_Final_EX.json configDHCP_Final_EX_ST1.json configDHCP_Final_EX_ST2.json");
-                    
+
                     ThreadStart ths = null;
                     Thread th = null;
                     ths = new ThreadStart(() => bootMinime());
@@ -1035,29 +1035,15 @@ namespace TeknoParrotUi.Views
                     info.WindowStyle = ProcessWindowStyle.Normal;
                 }
 
-                if (InputCode.ButtonMode == EmulationProfile.NamcoMkdx)
+                if (InputCode.ButtonMode == EmulationProfile.NamcoMkdx) // 7
                 {
-                    var amcus = Path.Combine(Path.GetDirectoryName(_gameLocation), "AMCUS");
-
-                    //If these files exist, this isn't a "original version"
-                    if (File.Exists(Path.Combine(amcus, "AMAuthd.exe")) &&
-                        File.Exists(Path.Combine(amcus, "iauthdll.dll")))
+                    string path2 = Path.Combine(Path.GetDirectoryName(_gameLocation), "AMCUS");
+                    if (File.Exists(Path.Combine(path2, "AMAuthd.exe")) && File.Exists(Path.Combine(path2, "iauthdll.dll")))
                     {
-                        // Write WritableConfig.ini
-                        File.WriteAllText(
-                            Path.Combine(Path.GetDirectoryName(_gameLocation), "AMCUS", "WritableConfig.ini"),
-                            "[RuntimeConfig]\r\nmode=SERVER\r\nnetID=ABGN\r\nserialID=\r\n[MuchaChargeData]\r\ncamode-ch_token_consumed=0\r\ncamode-ch_token_charged=0\r\ncamode-ch_token_unit=0\r\ncamode-ch_token_lower=0\r\ncamode-ch_token_upper=0\r\ncamode-ch_token_month=0\r\n");
-
-                        // Write AMConfig.ini
-                        File.WriteAllText(Path.Combine(Path.GetDirectoryName(_gameLocation), "AMCUS", "AMConfig.ini"),
-                            "[AMUpdaterConfig] \r\n;; AMUpdater\r\namucfg-title=COCO\r\namucfg-lang=JP\r\namucfg-countdown=5\r\namucfg-h_resol=1360\r\namucfg-v_resol=768\r\namucfg-logfile=amupdater.log\r\namucfg-game_rev=1\r\n\r\n[AMAuthdConfig]\r\n;; AMAuthd\r\namdcfg-authType=ALL.NET\r\namdcfg-sleepTime=50\r\namdcfg-resoNameTimeout=180\r\namdcfg-writableConfig=WritableConfig.ini\r\namdcfg-showConsole=ENABLE\r\namdcfg-logfile=- ;\r\namdcfg-export_log=AmAuthdLog.zip ;\r\n\r\n[AllnetConfig] \r\n;; ALL.Net\r\nallcfg-gameID=SBZB\r\nallcfg-gameVer=1.10\r\n;allcfg-tenpoAddr=;\r\n;allcfg-authServerAddr=;\r\n\r\n[AllnetOptionRevalTime]\r\n;; ALL.Net\r\nallopt-reval_hour=7\r\nallopt-reval_minute=0\r\nallopt-reval_second=0\r\n\r\n[AllnetOptionTimeout]\r\n;; ALL.Net\r\nallopt-timeout_connect=60000  \r\nallopt-timeout_send=60000\r\nallopt-timeout_recv=60000\r\n\r\n[MuchaAppConfig]\r\n;; mucha_app\r\nappcfg-logfile=muchaapp.log;\r\nappcfg-loglevel=INFO ;\r\n\r\n[MuchaSysConfig]\r\n;; MUCHA\r\nsyscfg-daemon_exe=.\\MuchaBin\\muchacd.exe\r\nsyscfg-daemon_pidfile=muchacd.pid ;\r\nsyscfg-daemon_logfile=muchacd.log ;\r\nsyscfg-daemon_loglevel=INFO ;\r\nsyscfg-daemon_listen=tcp:0.0.0.0:8765\r\nsyscfg-client_connect=tcp:127.0.0.1:8765\r\n\r\n[MuchaCAConfig]\r\n;; MUCHA\r\ncacfg-game_cd=MK31 ;\r\ncacfg-game_ver=10.22\r\ncacfg-game_board_type=0\r\ncacfg-game_board_id=PCB\r\ncacfg-auth_server_url=https://127.0.0.1:443/mucha_front/\r\ncacfg-auth_server_sslverify=1\r\ncacfg-auth_server_sslcafile=.\\MuchaBin\\cakey_mk3.pem\r\ncacfg-auth_server_timeout=0\r\ncacfg-interval_ainfo_renew=1800\r\ncacfg-interval_ainfo_retry=60\r\ncacfg-auth_place_id=JPN0128C ;\r\n;cacfg-auth_store_router_ip=\r\n\r\n[MuchaDtConfig]\r\n;; MUCHA\r\ndtcfg-dl_product_id=0x4d4b3331\r\ndtcfg-dl_chunk_size=65536\r\ndtcfg-dl_image_path=chunk.img\r\ndtcfg-dl_image_size=0\r\ndtcfg-dl_image_type=FILE\r\ndtcfg-dl_image_crypt_key=0xfedcba9876543210\r\ndtcfg-dl_log_level=INFO ;\r\ndtcfg-dl_lan_crypt_key=0xfedcba9876543210\r\ndtcfg-dl_lan_broadcast_interval=1000\r\ndtcfg-dl_lan_udp_port=9026\r\ndtcfg-dl_lan_bandwidth_limit=0\r\ndtcfg-dl_lan_broadcast_address=0.0.0.0\r\ndtcfg-dl_wan_retry_limit=\r\ndtcfg-dl_wan_retry_interval=\r\ndtcfg-dl_wan_send_timeout=\r\ndtcfg-dl_wan_recv_timeout=\r\ndtcfg-dl_lan_retry_limit=\r\ndtcfg-dl_lan_retry_interval=\r\ndtcfg-dl_lan_send_timeout=\r\ndtcfg-dl_lan_recv_timeout=\r\n\r\n[MuchaDtModeConfig]\r\n;; MUCHA\r\ndtmode-io_dir=.\\ ;\r\ndtmode-io_file=MK3_JP_\r\ndtmode-io_conv=DECEXP\r\ndtmode-io_passphrase=ktinkynhgimbt\r\n");
-
-                        // Register iauthd.dll
+                        File.WriteAllText(Path.Combine(Path.GetDirectoryName(_gameLocation), "AMCUS", "WritableConfig.ini"), "[RuntimeConfig]\r\nmode=SERVER\r\nnetID=ABGN\r\nserialID=\r\n[MuchaChargeData]\r\ncamode-ch_token_consumed=0\r\ncamode-ch_token_charged=0\r\ncamode-ch_token_unit=0\r\ncamode-ch_token_lower=0\r\ncamode-ch_token_upper=0\r\ncamode-ch_token_month=0\r\n");
+                        File.WriteAllText(Path.Combine(Path.GetDirectoryName(_gameLocation), "AMCUS", "AMConfig.ini"), "[AMUpdaterConfig] \r\n;; AMUpdater\r\namucfg-title=COCO\r\namucfg-lang=JP\r\namucfg-countdown=5\r\namucfg-h_resol=1360\r\namucfg-v_resol=768\r\namucfg-logfile=amupdater.log\r\namucfg-game_rev=1\r\n\r\n[AMAuthdConfig]\r\n;; AMAuthd\r\namdcfg-authType=ALL.NET\r\namdcfg-sleepTime=50\r\namdcfg-resoNameTimeout=180\r\namdcfg-writableConfig=WritableConfig.ini\r\namdcfg-showConsole=ENABLE\r\namdcfg-logfile=- ;\r\namdcfg-export_log=AmAuthdLog.zip ;\r\n\r\n[AllnetConfig] \r\n;; ALL.Net\r\nallcfg-gameID=SBZB\r\nallcfg-gameVer=1.10\r\n;allcfg-tenpoAddr=;\r\n;allcfg-authServerAddr=;\r\n\r\n[AllnetOptionRevalTime]\r\n;; ALL.Net\r\nallopt-reval_hour=7\r\nallopt-reval_minute=0\r\nallopt-reval_second=0\r\n\r\n[AllnetOptionTimeout]\r\n;; ALL.Net\r\nallopt-timeout_connect=60000  \r\nallopt-timeout_send=60000\r\nallopt-timeout_recv=60000\r\n\r\n[MuchaAppConfig]\r\n;; mucha_app\r\nappcfg-logfile=muchaapp.log;\r\nappcfg-loglevel=INFO ;\r\n\r\n[MuchaSysConfig]\r\n;; MUCHA\r\nsyscfg-daemon_exe=.\\MuchaBin\\muchacd.exe\r\nsyscfg-daemon_pidfile=muchacd.pid ;\r\nsyscfg-daemon_logfile=muchacd.log ;\r\nsyscfg-daemon_loglevel=INFO ;\r\nsyscfg-daemon_listen=tcp:0.0.0.0:8765\r\nsyscfg-client_connect=tcp:127.0.0.1:8765\r\n\r\n[MuchaCAConfig]\r\n;; MUCHA\r\ncacfg-game_cd=MK31 ;\r\ncacfg-game_ver=10.22\r\ncacfg-game_board_type=0\r\ncacfg-game_board_id=PCB\r\ncacfg-auth_server_url=https://127.0.0.1:443/mucha_front/\r\ncacfg-auth_server_sslverify=1\r\ncacfg-auth_server_sslcafile=.\\MuchaBin\\cakey_mk3.pem\r\ncacfg-auth_server_timeout=0\r\ncacfg-interval_ainfo_renew=1800\r\ncacfg-interval_ainfo_retry=60\r\ncacfg-auth_place_id=JPN0128C ;\r\n;cacfg-auth_store_router_ip=\r\n\r\n[MuchaDtConfig]\r\n;; MUCHA\r\ndtcfg-dl_product_id=0x4d4b3331\r\ndtcfg-dl_chunk_size=65536\r\ndtcfg-dl_image_path=chunk.img\r\ndtcfg-dl_image_size=0\r\ndtcfg-dl_image_type=FILE\r\ndtcfg-dl_image_crypt_key=0xfedcba9876543210\r\ndtcfg-dl_log_level=INFO ;\r\ndtcfg-dl_lan_crypt_key=0xfedcba9876543210\r\ndtcfg-dl_lan_broadcast_interval=1000\r\ndtcfg-dl_lan_udp_port=9026\r\ndtcfg-dl_lan_bandwidth_limit=0\r\ndtcfg-dl_lan_broadcast_address=0.0.0.0\r\ndtcfg-dl_wan_retry_limit=\r\ndtcfg-dl_wan_retry_interval=\r\ndtcfg-dl_wan_send_timeout=\r\ndtcfg-dl_wan_recv_timeout=\r\ndtcfg-dl_lan_retry_limit=\r\ndtcfg-dl_lan_retry_interval=\r\ndtcfg-dl_lan_send_timeout=\r\ndtcfg-dl_lan_recv_timeout=\r\n\r\n[MuchaDtModeConfig]\r\n;; MUCHA\r\ndtmode-io_dir=.\\ ;\r\ndtmode-io_file=MK3_JP_\r\ndtmode-io_conv=DECEXP\r\ndtmode-io_passphrase=ktinkynhgimbt\r\n");
                         Register_Dlls(Path.Combine(Path.GetDirectoryName(_gameLocation), "AMCUS", "iauthdll.dll"));
-
-                        // Start AMCUS
-                        RunAndWait(loaderExe,
-                            $"{loaderDll} \"{Path.Combine(Path.GetDirectoryName(_gameLocation), "AMCUS", "AMAuthd.exe")}\"");
+                        RunAndWait(loaderExe, loaderDll + " \"" + Path.Combine(Path.GetDirectoryName(_gameLocation), "AMCUS", "AMAuthd.exe") + "\"");
                     }
                 }
 
@@ -1079,7 +1065,7 @@ namespace TeknoParrotUi.Views
                         lang = tk7lang.FieldValue;
                     }
                     File.WriteAllText(Path.GetDirectoryName(_gameLocation) + "../../../Content/Config/tekken.ini",
-                        "Ver=\"1.06\"\r\nLanguage=\""+ lang +"\"\r\nRegion=\""+ lang +"\"\r\nLoadVsyncOff=\"off\"\r\nNonWaitStageLoad=\"off\"\r\nINITIALIZE_SEQUENCE_ERR_CHECK=\"off\"\r\nauthtype=\"OFFLINE\"\r\n");
+                        "Ver=\"1.06\"\r\nLanguage=\"" + lang + "\"\r\nRegion=\"" + lang + "\"\r\nLoadVsyncOff=\"off\"\r\nNonWaitStageLoad=\"off\"\r\nINITIALIZE_SEQUENCE_ERR_CHECK=\"off\"\r\nauthtype=\"OFFLINE\"\r\n");
                 }
 
                 if (InputCode.ButtonMode == EmulationProfile.SegaInitialD)
@@ -1139,11 +1125,12 @@ namespace TeknoParrotUi.Views
 
                     if (_gameProfile.EmulationProfile == EmulationProfile.SegaToolsIDZ)
                     {
-                        Application.Current.Dispatcher.Invoke((Action)delegate {
+                        Application.Current.Dispatcher.Invoke((Action)delegate
+                        {
                             if (System.Windows.Input.Keyboard.IsKeyDown(Key.Escape))
                             {
                                 killIDZ();
-                                
+
                                 FreeConsole();
                                 idzRun = true;
                             }
@@ -1153,7 +1140,7 @@ namespace TeknoParrotUi.Views
 
                     Thread.Sleep(500);
                 }
-                
+
                 TerminateThreads();
                 if (!idzRun && _gameProfile.EmulationProfile == EmulationProfile.SegaToolsIDZ)
                 {
@@ -1357,4 +1344,3 @@ namespace TeknoParrotUi.Views
         }
     }
 }
- 
