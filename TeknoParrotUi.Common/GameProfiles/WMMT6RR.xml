@@ -1,24 +1,40 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <GameProfile xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
-  <GameName>Wangan Midnight Maximum Tune 5DX Plus</GameName>
+  <GameName>Wangan Midnight Maximum Tune 6RR</GameName>
   <GameGenre>Racing</GameGenre>
   <GamePath />
   <TestMenuParameter />
   <TestMenuIsExecutable>false</TestMenuIsExecutable>
   <ExtraParameters />
   <TestMenuExtraParameters />
-  <IconName>Icons/WMMT5DXPlus.png</IconName>
+  <IconName>Icons/WMMT6RR.png</IconName>
   <ResetHint>true</ResetHint>
   <ConfigValues>
     <FieldInformation>
-      <CategoryName>Authentication</CategoryName>
-      <FieldName>GameVersion</FieldName>
-      <FieldValue>W5P10JPN05</FieldValue>
+      <CategoryName>Resolution</CategoryName>
+      <FieldName>RES</FieldName>
+      <FieldValue>原生分辨率</FieldValue>
       <FieldType>Dropdown</FieldType>
       <FieldMin>0</FieldMin>
       <FieldMax>0</FieldMax>
       <FieldOptions>
-        <string>W5P10JPN05</string>
+        <string>原生分辨率</string>
+        <string>1400x900</string>
+        <string>1920x1080</string>
+        <string>2560x1440</string>
+        <string>3840x2160</string>
+        <string>7680x4320</string>
+      </FieldOptions>
+    </FieldInformation>
+    <FieldInformation>
+      <CategoryName>Authentication</CategoryName>
+      <FieldName>GameVersion</FieldName>
+      <FieldValue>W6W10JPN05</FieldValue>
+      <FieldType>Dropdown</FieldType>
+      <FieldMin>0</FieldMin>
+      <FieldMax>0</FieldMax>
+      <FieldOptions>
+        <string>W6W10JPN05</string>
       </FieldOptions>
     </FieldInformation>
     <FieldInformation>

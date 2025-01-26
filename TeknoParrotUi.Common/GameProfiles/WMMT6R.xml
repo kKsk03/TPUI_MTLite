@@ -7,53 +7,43 @@
   <TestMenuIsExecutable>false</TestMenuIsExecutable>
   <ExtraParameters />
   <TestMenuExtraParameters />
-  <IconName>Icons\WMMT6R.png</IconName>
-  <ResetHint>false</ResetHint>
+  <IconName>Icons/WMMT6R.png</IconName>
+  <ResetHint>true</ResetHint>
   <ConfigValues>
     <FieldInformation>
-      <CategoryName>General</CategoryName>
-      <FieldName>Input API</FieldName>
-      <FieldValue>DirectInput</FieldValue>
+      <CategoryName>Authentication</CategoryName>
+      <FieldName>GameVersion</FieldName>
+      <FieldValue>W6R10JPN08</FieldValue>
       <FieldType>Dropdown</FieldType>
       <FieldMin>0</FieldMin>
       <FieldMax>0</FieldMax>
       <FieldOptions>
-        <string>DirectInput</string>
-        <string>XInput</string>
+        <string>W6R10JPN08</string>
       </FieldOptions>
     </FieldInformation>
     <FieldInformation>
-      <CategoryName>General</CategoryName>
-      <FieldName>FreePlay</FieldName>
-      <FieldValue>0</FieldValue>
-      <FieldType>Bool</FieldType>
+      <CategoryName>Authentication</CategoryName>
+      <FieldName>NetID</FieldName>
+      <FieldValue>0001</FieldValue>
+      <FieldType>Text</FieldType>
       <FieldMin>0</FieldMin>
       <FieldMax>0</FieldMax>
       <FieldOptions />
     </FieldInformation>
     <FieldInformation>
       <CategoryName>General</CategoryName>
-      <FieldName>TerminalEmulator</FieldName>
-      <FieldValue>0</FieldValue>
-      <FieldType>Bool</FieldType>
+      <FieldName>NetworkAdapterIP</FieldName>
+      <FieldValue />
+      <FieldType>Text</FieldType>
       <FieldMin>0</FieldMin>
       <FieldMax>0</FieldMax>
       <FieldOptions />
     </FieldInformation>
     <FieldInformation>
-      <CategoryName>TerminalEmuConfig</CategoryName>
-      <FieldName>2P Event Mode</FieldName>
-      <FieldValue>0</FieldValue>
-      <FieldType>Bool</FieldType>
-      <FieldMin>0</FieldMin>
-      <FieldMax>0</FieldMax>
-      <FieldOptions />
-    </FieldInformation>
-    <FieldInformation>
-      <CategoryName>TerminalEmuConfig</CategoryName>
-      <FieldName>4P Event Mode</FieldName>
-      <FieldValue>0</FieldValue>
-      <FieldType>Bool</FieldType>
+      <CategoryName>General</CategoryName>
+      <FieldName>ServerHost</FieldName>
+      <FieldValue />
+      <FieldType>Text</FieldType>
       <FieldMin>0</FieldMin>
       <FieldMax>0</FieldMax>
       <FieldOptions />
@@ -87,8 +77,8 @@
     </FieldInformation>
     <FieldInformation>
       <CategoryName>General</CategoryName>
-      <FieldName>Enable Outputs</FieldName>
-      <FieldValue>0</FieldValue>
+      <FieldName>FpsLimitEnable</FieldName>
+      <FieldValue>1</FieldValue>
       <FieldType>Bool</FieldType>
       <FieldMin>0</FieldMin>
       <FieldMax>0</FieldMax>
@@ -96,12 +86,15 @@
     </FieldInformation>
     <FieldInformation>
       <CategoryName>General</CategoryName>
-      <FieldName>SkipMovies</FieldName>
-      <FieldValue>0</FieldValue>
-      <FieldType>Bool</FieldType>
+      <FieldName>Input API</FieldName>
+      <FieldValue>DirectInput</FieldValue>
+      <FieldType>Dropdown</FieldType>
       <FieldMin>0</FieldMin>
       <FieldMax>0</FieldMax>
-      <FieldOptions />
+      <FieldOptions>
+        <string>DirectInput</string>
+        <string>XInput</string>
+      </FieldOptions>
     </FieldInformation>
     <FieldInformation>
       <CategoryName>General</CategoryName>
@@ -115,7 +108,7 @@
     <FieldInformation>
       <CategoryName>General</CategoryName>
       <FieldName>Keyboard/Button Axis Wheel Sensitivity</FieldName>
-      <FieldValue>10</FieldValue>
+      <FieldValue>114</FieldValue>
       <FieldType>Slider</FieldType>
       <FieldMin>1</FieldMin>
       <FieldMax>127</FieldMax>
@@ -124,121 +117,11 @@
     <FieldInformation>
       <CategoryName>General</CategoryName>
       <FieldName>Keyboard/Button Axis Pedal Sensitivity</FieldName>
-      <FieldValue>10</FieldValue>
+      <FieldValue>231</FieldValue>
       <FieldType>Slider</FieldType>
       <FieldMin>1</FieldMin>
       <FieldMax>255</FieldMax>
       <FieldOptions />
-    </FieldInformation>
-    <FieldInformation>
-      <CategoryName>General</CategoryName>
-      <FieldName>CustomName</FieldName>
-      <FieldValue>Reaver</FieldValue>
-      <FieldType>Text</FieldType>
-      <FieldMin>0</FieldMin>
-      <FieldMax>0</FieldMax>
-      <FieldOptions />
-    </FieldInformation>
-    <FieldInformation>
-      <CategoryName>General</CategoryName>
-      <FieldName>NetworkAdapterIP</FieldName>
-      <FieldValue>0.0.0.0</FieldValue>
-      <FieldType>Text</FieldType>
-      <FieldMin>0</FieldMin>
-      <FieldMax>0</FieldMax>
-      <FieldOptions />
-    </FieldInformation>
-    <FieldInformation>
-      <CategoryName>General</CategoryName>
-      <FieldName>TerminalIP</FieldName>
-      <FieldValue>0.0.0.0</FieldValue>
-      <FieldType>Text</FieldType>
-      <FieldMin>0</FieldMin>
-      <FieldMax>0</FieldMax>
-      <FieldOptions />
-    </FieldInformation>
-    <FieldInformation>
-      <CategoryName>General</CategoryName>
-      <FieldName>RouterIP</FieldName>
-      <FieldValue>0.0.0.0</FieldValue>
-      <FieldType>Text</FieldType>
-      <FieldMin>0</FieldMin>
-      <FieldMax>0</FieldMax>
-      <FieldOptions />
-    </FieldInformation>
-    <FieldInformation>
-      <CategoryName>General</CategoryName>
-      <FieldName>Cab1IP</FieldName>
-      <FieldValue>0.0.0.0</FieldValue>
-      <FieldType>Text</FieldType>
-      <FieldMin>0</FieldMin>
-      <FieldMax>0</FieldMax>
-      <FieldOptions />
-    </FieldInformation>
-    <FieldInformation>
-      <CategoryName>General</CategoryName>
-      <FieldName>Cab2IP</FieldName>
-      <FieldValue>0.0.0.0</FieldValue>
-      <FieldType>Text</FieldType>
-      <FieldMin>0</FieldMin>
-      <FieldMax>0</FieldMax>
-      <FieldOptions />
-    </FieldInformation>
-    <FieldInformation>
-      <CategoryName>General</CategoryName>
-      <FieldName>Cab3IP</FieldName>
-      <FieldValue>0.0.0.0</FieldValue>
-      <FieldType>Text</FieldType>
-      <FieldMin>0</FieldMin>
-      <FieldMax>0</FieldMax>
-      <FieldOptions />
-    </FieldInformation>
-    <FieldInformation>
-      <CategoryName>General</CategoryName>
-      <FieldName>Cab4IP</FieldName>
-      <FieldValue>0.0.0.0</FieldValue>
-      <FieldType>Text</FieldType>
-      <FieldMin>0</FieldMin>
-      <FieldMax>0</FieldMax>
-      <FieldOptions />
-    </FieldInformation>
-    <FieldInformation>
-      <CategoryName>Tune</CategoryName>
-      <FieldName>Force Full Tune</FieldName>
-      <FieldValue>0</FieldValue>
-      <FieldType>Bool</FieldType>
-      <FieldMin>0</FieldMin>
-      <FieldMax>0</FieldMax>
-      <FieldOptions />
-    </FieldInformation>
-    <FieldInformation>
-      <CategoryName>Tune</CategoryName>
-      <FieldName>Force Neon</FieldName>
-      <FieldValue>0</FieldValue>
-      <FieldType>Bool</FieldType>
-      <FieldMin>0</FieldMin>
-      <FieldMax>0</FieldMax>
-      <FieldOptions />
-    </FieldInformation>
-    <FieldInformation>
-      <CategoryName>Tune</CategoryName>
-      <FieldName>Select Neon</FieldName>
-      <FieldValue>Green</FieldValue>
-      <FieldType>Dropdown</FieldType>
-      <FieldMin>0</FieldMin>
-      <FieldMax>0</FieldMax>
-      <FieldOptions>
-        <string>Green</string>
-        <string>Blue</string>
-        <string>Red</string>
-        <string>Yellow</string>
-        <string>Purple</string>
-        <string>Green Pattern</string>
-        <string>Blue Pattern</string>
-        <string>Red Pattern</string>
-        <string>Yellow Pattern</string>
-        <string>Purple Pattern</string>
-      </FieldOptions>
     </FieldInformation>
   </ConfigValues>
   <JoystickButtons>
@@ -246,6 +129,8 @@
       <ButtonName>Test</ButtonName>
       <InputMapping>Test</InputMapping>
       <AnalogType>None</AnalogType>
+      <BindNameDi />
+      <BindName />
       <HideWithDirectInput>false</HideWithDirectInput>
       <HideWithXInput>false</HideWithXInput>
       <HideWithRawInput>false</HideWithRawInput>
@@ -268,6 +153,8 @@
       <ButtonName>Service</ButtonName>
       <InputMapping>Service1</InputMapping>
       <AnalogType>None</AnalogType>
+      <BindNameDi />
+      <BindName />
       <HideWithDirectInput>false</HideWithDirectInput>
       <HideWithXInput>false</HideWithXInput>
       <HideWithRawInput>false</HideWithRawInput>
@@ -290,6 +177,8 @@
       <ButtonName>Coin</ButtonName>
       <InputMapping>Coin1</InputMapping>
       <AnalogType>None</AnalogType>
+      <BindNameDi />
+      <BindName />
       <HideWithDirectInput>false</HideWithDirectInput>
       <HideWithXInput>false</HideWithXInput>
       <HideWithRawInput>false</HideWithRawInput>
@@ -312,6 +201,8 @@
       <ButtonName>Wheel Axis</ButtonName>
       <InputMapping>Analog0</InputMapping>
       <AnalogType>Wheel</AnalogType>
+      <BindNameDi />
+      <BindName />
       <HideWithDirectInput>false</HideWithDirectInput>
       <HideWithXInput>false</HideWithXInput>
       <HideWithRawInput>false</HideWithRawInput>
@@ -334,6 +225,8 @@
       <ButtonName>Wheel Axis Left</ButtonName>
       <InputMapping>Analog0</InputMapping>
       <AnalogType>Wheel</AnalogType>
+      <BindNameDi />
+      <BindName />
       <HideWithDirectInput>false</HideWithDirectInput>
       <HideWithXInput>true</HideWithXInput>
       <HideWithRawInput>false</HideWithRawInput>
@@ -356,6 +249,8 @@
       <ButtonName>Wheel Axis Right</ButtonName>
       <InputMapping>Analog0</InputMapping>
       <AnalogType>Wheel</AnalogType>
+      <BindNameDi />
+      <BindName />
       <HideWithDirectInput>false</HideWithDirectInput>
       <HideWithXInput>true</HideWithXInput>
       <HideWithRawInput>false</HideWithRawInput>
@@ -378,6 +273,8 @@
       <ButtonName>Gas</ButtonName>
       <InputMapping>Analog2</InputMapping>
       <AnalogType>Gas</AnalogType>
+      <BindNameDi />
+      <BindName />
       <HideWithDirectInput>false</HideWithDirectInput>
       <HideWithXInput>false</HideWithXInput>
       <HideWithRawInput>false</HideWithRawInput>
@@ -400,6 +297,8 @@
       <ButtonName>Brake</ButtonName>
       <InputMapping>Analog4</InputMapping>
       <AnalogType>Brake</AnalogType>
+      <BindNameDi />
+      <BindName />
       <HideWithDirectInput>false</HideWithDirectInput>
       <HideWithXInput>false</HideWithXInput>
       <HideWithRawInput>false</HideWithRawInput>
@@ -422,6 +321,8 @@
       <ButtonName>Test Menu Up</ButtonName>
       <InputMapping>P1ButtonUp</InputMapping>
       <AnalogType>None</AnalogType>
+      <BindNameDi />
+      <BindName />
       <HideWithDirectInput>false</HideWithDirectInput>
       <HideWithXInput>false</HideWithXInput>
       <HideWithRawInput>false</HideWithRawInput>
@@ -444,6 +345,8 @@
       <ButtonName>Test Menu Down</ButtonName>
       <InputMapping>P1ButtonDown</InputMapping>
       <AnalogType>None</AnalogType>
+      <BindNameDi />
+      <BindName />
       <HideWithDirectInput>false</HideWithDirectInput>
       <HideWithXInput>false</HideWithXInput>
       <HideWithRawInput>false</HideWithRawInput>
@@ -466,6 +369,8 @@
       <ButtonName>Enter Switch</ButtonName>
       <InputMapping>P1Button1</InputMapping>
       <AnalogType>None</AnalogType>
+      <BindNameDi />
+      <BindName />
       <HideWithDirectInput>false</HideWithDirectInput>
       <HideWithXInput>false</HideWithXInput>
       <HideWithRawInput>false</HideWithRawInput>
@@ -488,6 +393,8 @@
       <ButtonName>Gear Shift 1</ButtonName>
       <InputMapping>Wmmt5GearChange1</InputMapping>
       <AnalogType>None</AnalogType>
+      <BindNameDi />
+      <BindName />
       <HideWithDirectInput>false</HideWithDirectInput>
       <HideWithXInput>false</HideWithXInput>
       <HideWithRawInput>false</HideWithRawInput>
@@ -510,6 +417,8 @@
       <ButtonName>Gear Shift 2</ButtonName>
       <InputMapping>Wmmt5GearChange2</InputMapping>
       <AnalogType>None</AnalogType>
+      <BindNameDi />
+      <BindName />
       <HideWithDirectInput>false</HideWithDirectInput>
       <HideWithXInput>false</HideWithXInput>
       <HideWithRawInput>false</HideWithRawInput>
@@ -532,6 +441,8 @@
       <ButtonName>Gear Shift 3</ButtonName>
       <InputMapping>Wmmt5GearChange3</InputMapping>
       <AnalogType>None</AnalogType>
+      <BindNameDi />
+      <BindName />
       <HideWithDirectInput>false</HideWithDirectInput>
       <HideWithXInput>false</HideWithXInput>
       <HideWithRawInput>false</HideWithRawInput>
@@ -554,6 +465,8 @@
       <ButtonName>Gear Shift 4</ButtonName>
       <InputMapping>Wmmt5GearChange4</InputMapping>
       <AnalogType>None</AnalogType>
+      <BindNameDi />
+      <BindName />
       <HideWithDirectInput>false</HideWithDirectInput>
       <HideWithXInput>false</HideWithXInput>
       <HideWithRawInput>false</HideWithRawInput>
@@ -576,6 +489,8 @@
       <ButtonName>Gear Shift 5</ButtonName>
       <InputMapping>Wmmt5GearChange5</InputMapping>
       <AnalogType>None</AnalogType>
+      <BindNameDi />
+      <BindName />
       <HideWithDirectInput>false</HideWithDirectInput>
       <HideWithXInput>false</HideWithXInput>
       <HideWithRawInput>false</HideWithRawInput>
@@ -598,6 +513,8 @@
       <ButtonName>Gear Shift 6</ButtonName>
       <InputMapping>Wmmt5GearChange6</InputMapping>
       <AnalogType>None</AnalogType>
+      <BindNameDi />
+      <BindName />
       <HideWithDirectInput>false</HideWithDirectInput>
       <HideWithXInput>false</HideWithXInput>
       <HideWithRawInput>false</HideWithRawInput>
@@ -620,6 +537,8 @@
       <ButtonName>Gear Shift Up</ButtonName>
       <InputMapping>Wmmt5GearChangeUp</InputMapping>
       <AnalogType>None</AnalogType>
+      <BindNameDi />
+      <BindName />
       <HideWithDirectInput>false</HideWithDirectInput>
       <HideWithXInput>false</HideWithXInput>
       <HideWithRawInput>false</HideWithRawInput>
@@ -642,6 +561,8 @@
       <ButtonName>Gear Shift Down</ButtonName>
       <InputMapping>Wmmt5GearChangeDown</InputMapping>
       <AnalogType>None</AnalogType>
+      <BindNameDi />
+      <BindName />
       <HideWithDirectInput>false</HideWithDirectInput>
       <HideWithXInput>false</HideWithXInput>
       <HideWithRawInput>false</HideWithRawInput>
@@ -664,6 +585,8 @@
       <ButtonName>Perspective Switch Button</ButtonName>
       <InputMapping>ExtensionOne2</InputMapping>
       <AnalogType>None</AnalogType>
+      <BindNameDi />
+      <BindName />
       <HideWithDirectInput>false</HideWithDirectInput>
       <HideWithXInput>false</HideWithXInput>
       <HideWithRawInput>false</HideWithRawInput>
@@ -686,6 +609,8 @@
       <ButtonName>Interuption Switch Button</ButtonName>
       <InputMapping>ExtensionOne1</InputMapping>
       <AnalogType>None</AnalogType>
+      <BindNameDi />
+      <BindName />
       <HideWithDirectInput>false</HideWithDirectInput>
       <HideWithXInput>false</HideWithXInput>
       <HideWithRawInput>false</HideWithRawInput>
@@ -706,7 +631,7 @@
     </JoystickButtons>
   </JoystickButtons>
   <EmulationProfile>NamcoWmmt5</EmulationProfile>
-  <GameProfileRevision>19</GameProfileRevision>
+  <GameProfileRevision>3</GameProfileRevision>
   <HasSeparateTestMode>false</HasSeparateTestMode>
   <Is64Bit>true</Is64Bit>
   <TestExecIs64Bit>false</TestExecIs64Bit>
@@ -718,8 +643,10 @@
   <GunGame>false</GunGame>
   <DevOnly>false</DevOnly>
   <ExecutableName>wmn6r.exe</ExecutableName>
-  <HasTwoExecutables>false</HasTwoExecutables>
-  <LaunchSecondExecutableFirst>false</LaunchSecondExecutableFirst>
+  <ExecutableName2>amauthd.exe</ExecutableName2>
+  <HasTwoExecutables>true</HasTwoExecutables>
+  <LaunchSecondExecutableFirst>true</LaunchSecondExecutableFirst>
+  <GamePath2 />
   <xAxisMin>0</xAxisMin>
   <xAxisMax>255</xAxisMax>
   <yAxisMin>0</yAxisMin>
