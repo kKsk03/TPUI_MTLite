@@ -220,6 +220,9 @@
     <Content Include="GameProfiles\WMMT6R.xml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
+    <Content Include="GameProfiles\WMMT6RR.xml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
     <Content Include="HookedWindows.txt">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
