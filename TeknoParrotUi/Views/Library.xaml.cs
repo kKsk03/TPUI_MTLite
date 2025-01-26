@@ -553,6 +553,14 @@ namespace TeknoParrotUi.Views
                 Lazydata.ParrotData.LastPlayed = gameProfile.GameName;
                 JoystickHelper.Serialize();
             }
+
+            var testMenu = false;
+
+            if (ValidateAndRun(gameProfile, out var loader, out var dll, false, this, testMenu))
+            {
+                var gameRunning = new GameRunning(gameProfile, loader, dll, testMenu, false, false, this);
+                Application.Current.Windows.OfType<MainWindow>().Single().contentControl.Content = gameRunning;
+            }
         }
 
         /// <summary>

@@ -644,7 +644,7 @@
   <InvertedMouseAxis>false</InvertedMouseAxis>
   <GunGame>false</GunGame>
   <DevOnly>false</DevOnly>
-  <ExecutableName>wmn6r.exe</ExecutableName>
+  <ExecutableName>wmn5r.exe</ExecutableName>
   <ExecutableName2>amauthd.exe</ExecutableName2>
   <HasTwoExecutables>true</HasTwoExecutables>
   <LaunchSecondExecutableFirst>true</LaunchSecondExecutableFirst>
