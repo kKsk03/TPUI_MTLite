@@ -9,6 +9,9 @@ using TeknoParrotUi.Helpers;
 using TeknoParrotUi.Views;
 using System.Text.RegularExpressions;
 using System.Diagnostics;
+using System.Net.NetworkInformation;
+using System.Net.Sockets;
+using System.Net;
 
 namespace TeknoParrotUi.UserControls
 {
@@ -64,6 +67,27 @@ namespace TeknoParrotUi.UserControls
             {
                 GameExecutable2Text.Visibility = Visibility.Collapsed;
                 GamePathBox2.Visibility = Visibility.Collapsed;
+            }
+
+            var ipField = _gameProfile.ConfigValues.Find(cv => cv.FieldName == "NetworkAdapterIP");
+            if (ipField != null)
+            {
+                ipField.FieldOptions.Clear();
+
+                foreach (NetworkInterface ni in NetworkInterface.GetAllNetworkInterfaces())
+                {
+                    if (ni.OperationalStatus == OperationalStatus.Up)
+                    {
+                        var ipProps = ni.GetIPProperties();
+                        foreach (UnicastIPAddressInformation ip in ipProps.UnicastAddresses)
+                        {
+                            if (ip.Address.AddressFamily == AddressFamily.InterNetwork && !IPAddress.IsLoopback(ip.Address)) // 仅IPv4，排除回环地址
+                            {
+                                ipField.FieldOptions.Add(ip.Address.ToString());
+                            }
+                        }
+                    }
+                }
             }
         }
 
