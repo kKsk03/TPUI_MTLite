@@ -1079,7 +1079,27 @@ namespace TeknoParrotUi.Views
                 }
 
                 if (_twoExes && _secondExeFirst)
+                {
                     RunAndWait(loaderExe, $"{loaderDll} \"{_gameLocation2}\" {_secondExeArguments}");
+
+                    // Only For WMMT Updater
+                    var updaterPath = Path.Combine(Path.GetDirectoryName(_gameLocation2), "AMUpdater.exe");
+                    if (File.Exists(updaterPath))
+                    {
+                        Thread.Sleep(5000);
+                        var startInfo = new ProcessStartInfo
+                        {
+                            FileName = updaterPath,
+                            WorkingDirectory = Path.GetDirectoryName(updaterPath),
+                            UseShellExecute = false
+                        };
+
+                        using (var updaterProcess = Process.Start(startInfo))
+                        {
+                            updaterProcess.WaitForExit();
+                        }
+                    }
+                }
 
                 var cmdProcess = new Process
                 {
