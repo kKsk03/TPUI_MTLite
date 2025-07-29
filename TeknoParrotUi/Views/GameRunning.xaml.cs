@@ -1,13 +1,18 @@
-using Linearstar.Windows.RawInput;
+﻿using Linearstar.Windows.RawInput;
 using MahApps.Metro.Controls;
+using Newtonsoft.Json;
 using System;
+using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Net;
+using System.Net.Http;
 using System.Runtime.InteropServices;
+using System.Security.Cryptography;
 using System.Text.RegularExpressions;
 using System.Threading;
+using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Input;
 using System.Windows.Interop;
@@ -47,6 +52,7 @@ namespace TeknoParrotUi.Views
         private bool _twoExes;
         private bool _secondExeFirst;
         private string _secondExeArguments;
+        private bool _isProcessing = false;
 #if DEBUG
         DebugJVS jvsDebug;
 #endif
@@ -688,8 +694,183 @@ namespace TeknoParrotUi.Views
 
         // End ZeroLauncher Code
 
-        private void CreateGameProcess()
+        private async Task CreateGameProcess()
         {
+            if (_gameProfile.GameName.Contains("Wangan Midnight Maximum Tune"))
+            {
+                // 杀死残留进程
+                string[] processesToKill = { "OpenParrotLoader64", "AMAuthd" };
+
+                foreach (var procName in processesToKill)
+                {
+                    var processes = Process.GetProcessesByName(procName);
+                    foreach (var proc in processes)
+                    {
+                        try
+                        {
+                            proc.Kill();
+                            proc.WaitForExit();
+                        }
+                        catch (Exception ex)
+                        {
+                            MessageBox.Show($"关闭进程 {procName}.exe 时发生错误：{ex.Message}");
+                        }
+                    }
+                }
+
+                // WMMT Updater
+                string basePath = ""; // 基准路径
+                string gameVersion = ""; // 游戏版本
+                bool updateCheck = false;
+                List<FileCheckItem> filesToCheck = new List<FileCheckItem>();
+
+                if (_gameProfile.GameName.Contains("5DX"))
+                {
+                    gameVersion = "5DX";
+                    int idx = _gameLocation.IndexOf("wmn5r.exe", StringComparison.OrdinalIgnoreCase);
+                    basePath = _gameLocation.Substring(0, idx);
+
+                    filesToCheck.Add(new FileCheckItem(Path.Combine(basePath, "OpenBanaW5X.dll")));
+                    filesToCheck.Add(new FileCheckItem(Path.Combine(basePath, @"data_jp\menu\Zenichi\ZenichiConfig.lua")));
+                    filesToCheck.Add(new FileCheckItem(Path.Combine(basePath, @"data\ghost\lua\ghost_expedition_sugoroku.lua")));
+
+                    updateCheck = true;
+                }
+                else if (_gameProfile.GameName.Contains("6RR"))
+                {
+                    gameVersion = "6RR";
+                    int idx = _gameLocation.IndexOf("wmn6r.exe", StringComparison.OrdinalIgnoreCase);
+                    basePath = _gameLocation.Substring(0, idx);
+
+                    filesToCheck.Add(new FileCheckItem(Path.Combine(basePath, "bngrw.dll")));
+                    filesToCheck.Add(new FileCheckItem(Path.Combine(basePath, @"data_jp\menu\Zenichi\ZenichiConfig.lua")));
+                    filesToCheck.Add(new FileCheckItem(Path.Combine(basePath, @"data_jp\platform_parameters\lua\ghost_expedition_sugoroku.lua")));
+
+                    updateCheck = true;
+                }
+                else
+                {
+                    updateCheck = false;
+                }
+
+                if (updateCheck)
+                {
+                    // 计算 MD5
+                    foreach (var item in filesToCheck)
+                    {
+                        if (File.Exists(item.path))
+                        {
+                            item.md5 = GetFileMd5(item.path);
+                            item.filename = Path.GetFileName(item.path);
+                        }
+                    }
+
+                    // 构造发送内容
+                    var payload = new
+                    {
+                        version = gameVersion,
+                        files = filesToCheck
+                            .Where(f => !string.IsNullOrEmpty(f.md5))
+                            .Select(f => new { f.filename, f.md5 })
+                    };
+
+                    var checkGameUpdate = new CheckGameUpdate();
+                    checkGameUpdate.Show();
+
+                    CancellationTokenSource cts = new CancellationTokenSource();
+                    bool requestSuccess = false;
+                    string updateInfo = null;
+                    UpdateResponse updateResponse = null;
+
+                    try
+                    {
+                        using (HttpClient client = new HttpClient())
+                        {
+                            client.Timeout = TimeSpan.FromSeconds(10);
+
+                            var json = JsonConvert.SerializeObject(payload);
+                            var content = new StringContent(json, System.Text.Encoding.UTF8, "application/json");
+
+                            HttpResponseMessage response = null;
+                            try
+                            {
+                                await Task.Delay(1000); // 强制刷新UI
+
+                                response = await client.PostAsync("https://soyorin.kksk03.site:2083/api/checkUpdate", content);
+                                response.EnsureSuccessStatusCode();
+
+                                updateInfo = await response.Content.ReadAsStringAsync();
+                                requestSuccess = true;
+
+                                updateResponse = JsonConvert.DeserializeObject<UpdateResponse>(updateInfo);
+                            }
+                            catch (TaskCanceledException ex)
+                            {
+                                // 捕获超时异常
+                                if (!cts.Token.IsCancellationRequested)
+                                {
+                                    MessageBox.Show("请求超时，请稍后重试！");
+                                }
+                                requestSuccess = false;
+                            }
+                            catch (Exception ex)
+                            {
+                                // 其他异常处理
+                                MessageBox.Show("请求异常：" + ex.Message);
+                                requestSuccess = false;
+                            }
+                        }
+                    }
+                    catch (Exception)
+                    {
+                        requestSuccess = false;
+                    }
+                    finally
+                    {
+                        checkGameUpdate.Close();
+                    }
+
+                    if (!requestSuccess)
+                    {
+                        var result = MessageBox.Show(
+                            "获取更新信息失败，是否要直接启动游戏？",
+                            "更新失败",
+                            MessageBoxButton.YesNo,
+                            MessageBoxImage.Warning
+                        );
+
+                        if (result == MessageBoxResult.No)
+                        {
+                            Application.Current.Windows.OfType<MainWindow>().Single().contentControl.Content = _library;
+                            return;
+                        }
+                    }
+                    else
+                    {
+                        if (updateResponse != null && updateResponse.updateRequired)
+                        {
+                            var updateWindow = new UpdateWindow(updateResponse.files, basePath);
+                            bool? result = updateWindow.ShowDialog();
+
+                            if (result == false)
+                            {
+                                MessageBox.Show("更新失败");
+                            }
+                        }
+                    }
+                }
+            }
+
+
+
+
+
+
+
+
+
+
+
             if (_gameProfile.EmulationProfile == EmulationProfile.SegaToolsIDZ)
             {
                 AllocConsole();
@@ -1341,6 +1522,45 @@ namespace TeknoParrotUi.Views
             {
                 MainWindow.SafeExit();
             }
+        }
+
+        private class FileCheckItem
+        {
+            public string path;
+            public string filename;
+            public string md5;
+
+            public FileCheckItem(string path)
+            {
+                this.path = path;
+                this.filename = "";
+                this.md5 = "";
+            }
+        }
+
+        private static string GetFileMd5(string filePath)
+        {
+            using (var md5 = MD5.Create())
+            {
+                using (var stream = File.OpenRead(filePath))
+                {
+                    var hash = md5.ComputeHash(stream);
+                    return BitConverter.ToString(hash).Replace("-", "").ToLowerInvariant();
+                }
+            }
+        }
+
+        public class UpdateResponse
+        {
+            public bool updateRequired { get; set; }
+            public List<UpdateFile> files { get; set; }
+        }
+
+        public class UpdateFile
+        {
+            public string filename { get; set; }
+            public string downloadUrl { get; set; }
+            public string filePath { get; set; }
         }
     }
 }

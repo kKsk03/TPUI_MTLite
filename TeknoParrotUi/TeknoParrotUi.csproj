@@ -224,6 +224,9 @@
     <Compile Include="ViewModels\TextInputDialog.xaml.cs">
       <DependentUpon>TextInputDialog.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Views\CheckGameUpdate.xaml.cs">
+      <DependentUpon>CheckGameUpdate.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\ModControl.xaml.cs">
       <DependentUpon>ModControl.xaml</DependentUpon>
     </Compile>
@@ -285,6 +288,9 @@
     <Compile Include="Views\UpdaterDialog.xaml.cs">
       <DependentUpon>UpdaterDialog.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Views\UpdateWindow.xaml.cs">
+      <DependentUpon>UpdateWindow.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\VerifyGame.xaml.cs">
       <DependentUpon>VerifyGame.xaml</DependentUpon>
     </Compile>
@@ -295,6 +301,10 @@
     <Page Include="ViewModels\TextInputDialog.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\CheckGameUpdate.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\ModControl.xaml">
       <SubType>Designer</SubType>
@@ -377,6 +387,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\UpdaterDialog.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\UpdateWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
