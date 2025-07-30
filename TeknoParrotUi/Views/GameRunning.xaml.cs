@@ -796,7 +796,7 @@ namespace TeknoParrotUi.Views
                             {
                                 await Task.Delay(1000); // 强制刷新UI
 
-                                response = await client.PostAsync("https://soyorin.kksk03.site:2083/api/checkUpdate", content);
+                                response = await client.PostAsync("https://xrs-network.kksk03.site:2083/api/checkUpdate", content);
                                 response.EnsureSuccessStatusCode();
 
                                 updateInfo = await response.Content.ReadAsStringAsync();
