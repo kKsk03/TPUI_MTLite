@@ -32,6 +32,7 @@ namespace TeknoParrotUi.Common
         {
             { "RES", "游戏窗口分辨率" },
             { "GameVersion", "游戏版本" },
+            { "NetID", "NetID" },
             { "NetworkAdapterIP", "网络适配器IP" },
             { "ServerHost", "游戏服务器认证地址" },
             { "TerminalMode", "终端机模式" },
