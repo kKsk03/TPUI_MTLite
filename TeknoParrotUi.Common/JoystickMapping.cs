@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Xml.Serialization;
 using Keys = System.Windows.Forms.Keys;
 
@@ -265,6 +266,43 @@ namespace TeknoParrotUi.Common
         public bool HideWithoutUseAnalogAxisToAimGUN2 { get; set; }
         public bool HideWithoutProMode { get; set; }
         public bool HideWithProMode { get; set; }
+
+        private static readonly Dictionary<string, string> ButtonNameTranslations = new Dictionary<string, string>
+        {
+            { "Test", "机修按钮" },
+            { "Service", "服务按钮" },
+            { "Coin", "投币按钮" },
+            { "Wheel Axis", "转向（向左打方向即可）" },
+            { "Wheel Axis Left", "转向（左）" },
+            { "Wheel Axis Right", "转向（右）" },
+            { "Gas", "油门" },
+            { "Brake", "刹车" },
+            { "Test Menu Up", "机修菜单 向上" },
+            { "Test Menu Down", "机修菜单 向下" },
+            { "Enter Switch", "机修菜单 确认" },
+            { "Gear Shift 1", "H档 - 1档" },
+            { "Gear Shift 2", "H档 - 2档" },
+            { "Gear Shift 3", "H档 - 3档" },
+            { "Gear Shift 4", "H档 - 4档" },
+            { "Gear Shift 5", "H档 - 5档" },
+            { "Gear Shift 6", "H档 - 6档" },
+            { "Gear Shift Up", "升档" },
+            { "Gear Shift Down", "降档" },
+            { "Perspective Switch Button", "视角切换" },
+            { "Interuption Switch Button", "闯入切换" },
+        };
+
+        public string DisplayButtonName
+        {
+            get
+            {
+                if (ButtonNameTranslations.TryGetValue(ButtonName, out var translated))
+                {
+                    return translated;
+                }
+                return ButtonName;
+            }
+        }
     }
 
     [Serializable]

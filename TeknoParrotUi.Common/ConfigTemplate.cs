@@ -37,7 +37,7 @@ namespace TeknoParrotUi.Common
             { "TerminalMode", "终端机模式" },
             { "WhiteScreenFix", "白屏修复" },
             { "Windowed", "窗口化模式" },
-            { "FpsLimitEnable", "帧率限制" },
+            { "FpsLimitEnable", "帧率限制至60FPS" },
             { "Input API", "输入模式" },
             { "Use Keyboard/Button For Axis", "使用键盘操控" },
             { "Keyboard/Button Axis Wheel Sensitivity", "键盘转向灵敏度" },

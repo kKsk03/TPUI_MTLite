@@ -51,14 +51,15 @@
             <RowDefinition Height="38*"/>
             <RowDefinition Height="3*"/>
         </Grid.RowDefinitions>
-        <ScrollViewer VerticalScrollBarVisibility="Auto" Grid.Row="1" Grid.Column="1" Margin="10">
+        <ScrollViewer VerticalScrollBarVisibility="Auto" Grid.Row="1" Grid.Column="1" Margin="10" FontFamily="Microsoft YaHei">
             <HeaderedItemsControl Name="JoystickMappingItems" Grid.Row="1" >
                 <HeaderedItemsControl.ItemTemplate>
                     <DataTemplate>
                         <UniformGrid Columns="2">
-                          <TextBlock Text="{Binding ButtonName}" Loaded="Control_Loaded" Tag="{Binding}" ToolTip="{Binding Hint}"/>
-                          <TextBox Margin="0,0,0,10" Text="{Binding BindName}" ContextMenu="{x:Null}" IsReadOnly="true" Tag="{Binding}" Loaded="Control_Loaded" Unloaded="TextBox_Unloaded" LostFocus="TextBox_LostFocus" GotFocus="TextBox_GotFocus" SelectionOpacity="0" ToolTip="{Binding Hint}"/>
-                          <ComboBox Margin="0,0,0,10" Loaded="Control_Loaded" Tag="{Binding}" SelectionChanged="ComboBox_SelectionChanged" Text="hello" IsEditable="False" IsReadOnly="True" ToolTip="{Binding Hint}"/>
+                            <!--<TextBlock Text="{Binding ButtonName}" Loaded="Control_Loaded" Tag="{Binding}" ToolTip="{Binding Hint}"/>-->
+                            <TextBlock Text="{Binding DisplayButtonName}" Loaded="Control_Loaded" Tag="{Binding}" ToolTip="{Binding Hint}"/>
+                            <TextBox Margin="0,0,0,10" Text="{Binding BindName}" ContextMenu="{x:Null}" IsReadOnly="true" Tag="{Binding}" Loaded="Control_Loaded" Unloaded="TextBox_Unloaded" LostFocus="TextBox_LostFocus" GotFocus="TextBox_GotFocus" SelectionOpacity="0" ToolTip="{Binding Hint}"/>
+                            <ComboBox Margin="0,0,0,10" Loaded="Control_Loaded" Tag="{Binding}" SelectionChanged="ComboBox_SelectionChanged" Text="hello" IsEditable="False" IsReadOnly="True" ToolTip="{Binding Hint}"/>
                         </UniformGrid>
                     </DataTemplate>
                 </HeaderedItemsControl.ItemTemplate>
