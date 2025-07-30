@@ -75,11 +75,21 @@
                 <ItemsControl.ItemTemplate>
                     <DataTemplate>
                         <UniformGrid Columns="2">
+                            <!--
                             <TextBlock>
                                 <TextBlock.Text>
                                     <MultiBinding StringFormat="{}{0} - {1}">
                                         <Binding Path="CategoryName" />
                                         <Binding Path="FieldName" />
+                                    </MultiBinding>
+                                </TextBlock.Text>
+                            </TextBlock>
+                            -->
+                            <TextBlock>
+                                <TextBlock.Text>
+                                    <MultiBinding StringFormat="{}{0} - {1}">
+                                        <Binding Path="DisplayCategoryName" />
+                                        <Binding Path="DisplayFieldName" />
                                     </MultiBinding>
                                 </TextBlock.Text>
                             </TextBlock>

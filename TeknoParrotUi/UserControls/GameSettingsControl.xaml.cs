@@ -49,7 +49,14 @@ namespace TeknoParrotUi.UserControls
             if (!string.IsNullOrEmpty(_gameProfile.ExecutableName))
                 exeName = $" ({_gameProfile.ExecutableName})".Replace(";", " or ");
 
-            GameExecutableText.Text = $"Game Executable{exeName}:";
+            if (gameProfile.GameName.Contains("Wangan Midnight Maximum Tune"))
+            {
+                GameExecutableText.Text = $"游戏主程序地址 {exeName}:";
+            }
+            else
+            {
+                GameExecutableText.Text = $"Game Executable{exeName}:";
+            }
 
             if (_gameProfile.HasTwoExecutables)
             {
@@ -58,7 +65,14 @@ namespace TeknoParrotUi.UserControls
                 if (!string.IsNullOrEmpty(_gameProfile.ExecutableName2))
                     exeName = $" ({_gameProfile.ExecutableName2})".Replace(";", " or ");
 
-                GameExecutable2Text.Text = $"Second Game Executable{exeName}:";
+                if (gameProfile.GameName.Contains("Wangan Midnight Maximum Tune"))
+                {
+                    GameExecutable2Text.Text = $"AMAuthd程序地址 {exeName}:";
+                }
+                else
+                {
+                    GameExecutable2Text.Text = $"Second Game Executable{exeName}:";
+                }
 
                 GameExecutable2Text.Visibility = Visibility.Visible;
                 GamePathBox2.Visibility = Visibility.Visible;
