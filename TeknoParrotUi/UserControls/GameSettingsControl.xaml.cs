@@ -1,17 +1,15 @@
-﻿using System;
+﻿using Microsoft.Win32;
+using System;
 using System.Linq;
+using System.Net;
+using System.Net.NetworkInformation;
+using System.Net.Sockets;
+using System.Text.RegularExpressions;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
-using Microsoft.Win32;
 using TeknoParrotUi.Common;
-using TeknoParrotUi.Helpers;
 using TeknoParrotUi.Views;
-using System.Text.RegularExpressions;
-using System.Diagnostics;
-using System.Net.NetworkInformation;
-using System.Net.Sockets;
-using System.Net;
 
 namespace TeknoParrotUi.UserControls
 {
@@ -24,7 +22,7 @@ namespace TeknoParrotUi.UserControls
         {
             InitializeComponent();
         }
-        
+
         private GameProfile _gameProfile;
         private ListBoxItem _comboItem;
         private ContentControl _contentControl;
@@ -39,6 +37,7 @@ namespace TeknoParrotUi.UserControls
 
             GamePathBox.Text = _gameProfile.GamePath;
             GamePathBox2.Text = _gameProfile.GamePath2;
+            GamePathBox3.Text = _gameProfile.GamePath3;
 
             GameSettingsList.ItemsSource = gameProfile.ConfigValues;
             _contentControl = contentControl;
@@ -81,6 +80,28 @@ namespace TeknoParrotUi.UserControls
             {
                 GameExecutable2Text.Visibility = Visibility.Collapsed;
                 GamePathBox2.Visibility = Visibility.Collapsed;
+            }
+
+            if (_gameProfile.HasThreeExecutables)
+            {
+                exeName = "";
+
+                if (!string.IsNullOrEmpty(_gameProfile.ExecutableName3))
+                    exeName = $" ({_gameProfile.ExecutableName3})".Replace(";", " or ");
+
+                if (gameProfile.GameName.Contains("Wangan Midnight Maximum Tune"))
+                {
+                    GameExecutable3Text.Text = $"MaxiTerminalX 虚拟终端机地址 {exeName}:";
+                }
+                else
+                {
+                    GameExecutable3Text.Text = $"Third Game Executable{exeName}:";
+                }
+            }
+            else
+            {
+                GameExecutable3Text.Visibility = Visibility.Collapsed;
+                GamePathBox3.Visibility = Visibility.Collapsed;
             }
 
             var ipField = _gameProfile.ConfigValues.Find(cv => cv.FieldName == "NetworkAdapterIP");
@@ -137,6 +158,26 @@ namespace TeknoParrotUi.UserControls
             if (!string.IsNullOrEmpty(_gameProfile.ExecutableName2))
             {
                 openFileDialog.Filter = $"{Properties.Resources.GameSettingsGameExecutableFilter} ({_gameProfile.ExecutableName2})|{_gameProfile.ExecutableName2}|All files (*.*)|*.*";
+            }
+
+            if (openFileDialog.ShowDialog() == true)
+            {
+                ((TextBox)sender).Text = openFileDialog.FileName;
+            }
+        }
+
+        private void SelectExecutable3ForTextBox(object sender, MouseButtonEventArgs e)
+        {
+            var openFileDialog = new OpenFileDialog
+            {
+                Multiselect = false,
+                CheckFileExists = true,
+                Title = Properties.Resources.GameSettingsSelectGameExecutable
+            };
+
+            if (!string.IsNullOrEmpty(_gameProfile.ExecutableName3))
+            {
+                openFileDialog.Filter = $"{Properties.Resources.GameSettingsGameExecutableFilter} ({_gameProfile.ExecutableName3})|{_gameProfile.ExecutableName3}|All files (*.*)|*.*";
             }
 
             if (openFileDialog.ShowDialog() == true)
@@ -204,6 +245,7 @@ namespace TeknoParrotUi.UserControls
                 JoystickHelper.SerializeGameProfile(_gameProfile);
                 _gameProfile.GamePath = GamePathBox.Text;
                 _gameProfile.GamePath2 = GamePathBox2.Text;
+                _gameProfile.GamePath3 = GamePathBox3.Text;
                 JoystickHelper.SerializeGameProfile(_gameProfile);
                 _comboItem.Tag = _gameProfile;
                 Application.Current.Windows.OfType<MainWindow>().Single().ShowMessage(string.Format(Properties.Resources.SuccessfullySaved, System.IO.Path.GetFileName(_gameProfile.FileName)));

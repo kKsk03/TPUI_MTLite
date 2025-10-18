@@ -10,6 +10,7 @@ namespace TeknoParrotUi.Common
         Dropdown = 3,
         Slider = 4
     }
+
     public class FieldInformation
     {
         public string CategoryName { get; set; }
@@ -26,6 +27,9 @@ namespace TeknoParrotUi.Common
             { "Resolution", "分辨率" },
             { "Authentication", "认证" },
             { "General", "常规" },
+            { "TerminalEmu", "终端机模拟" },
+            { "GameUpdate", "游戏更新" },
+            { "Game", "游戏" },
         };
 
         private static readonly Dictionary<string, string> FieldTranslations = new Dictionary<string, string>
@@ -43,6 +47,11 @@ namespace TeknoParrotUi.Common
             { "Use Keyboard/Button For Axis", "使用键盘操控" },
             { "Keyboard/Button Axis Wheel Sensitivity", "键盘转向灵敏度" },
             { "Keyboard/Button Axis Pedal Sensitivity", "键盘油门刹车灵敏度" },
+            { "Check Update", "启动前检查游戏更新" },
+            { "Update Server Address", "更新服务器地址" },
+            { "File Server Address", "文件服务器地址" },
+            { "Run Maxi Terminal Emulation", "运行湾岸终端机模拟" },
+            { "Force Use Software Revision", "强制设定游戏版本（无特殊情况请留空）" },
         };
 
         public string DisplayCategoryName

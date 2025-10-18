@@ -27,6 +27,7 @@ namespace TeknoParrotUi
         private readonly AddGame _addGame;
         private bool _showingDialog;
         private bool _allowClose;
+        private string _tpVersion = "v1.1"; // 每次更新记得改版本
 
         public MainWindow()
         {
@@ -35,8 +36,7 @@ namespace TeknoParrotUi
             _library = new Library(contentControl);
             _addGame = new AddGame(contentControl, _library);
             contentControl.Content = _library;
-            versionText.Text = "1.0"; //GameVersion.CurrentVersion;
-            Title = "TeknoParrot UI " + GameVersion.CurrentVersion;
+            versionText.Text = _tpVersion; //GameVersion.CurrentVersion;
 
             SaveCompleteSnackbar.VerticalAlignment = VerticalAlignment.Top;
             SaveCompleteSnackbar.HorizontalContentAlignment = HorizontalAlignment.Center;
@@ -54,8 +54,6 @@ namespace TeknoParrotUi
             else
             {
                 Debug.WriteLine("user chose yes, AAAAAAAAAA");
-
-
             }
         }
 
@@ -108,7 +106,7 @@ namespace TeknoParrotUi
             contentControl.Content = settings;
         }
 
-        StackPanel ConfirmExit()
+        private StackPanel ConfirmExit()
         {
             var txt1 = new TextBlock
             {
@@ -219,24 +217,33 @@ namespace TeknoParrotUi
         {
             // component name
             public string name { get; set; }
+
             // location of file to check version from, i.e TeknoParrot\TeknoParrot.dll
             public string location { get; set; }
+
             // repository name, if not set it will use name as the repo name
             public string reponame { get; set; }
+
             // if set, the changelog button will link to the commits page, if not it will link to the release directly
             public bool opensource { get; set; } = true;
+
             // if set, the updater will extract the files into this folder rather than the name folder
             public string folderOverride { get; set; }
+
             // if set, it will grab the update from a specific github user's account, if not set it'll use teknogods
             public string userName { get; set; }
+
             public string fullUrl
             {
                 get { return "https://github.com/" + (!string.IsNullOrEmpty(userName) ? userName : "teknogods") + "/" + (!string.IsNullOrEmpty(reponame) ? reponame : name) + "/"; }
             }
+
             // if set, this will write the version to a text file when extracted then refer to that when checking.
             public bool manualVersion { get; set; } = false;
+
             // local version number
             public string _localVersion;
+
             public string localVersion
             {
                 get

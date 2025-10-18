@@ -33,14 +33,14 @@
         <materialDesign:DrawerHost LeftDrawerBackground="{DynamicResource MaterialDesignPaper}" x:Name="DrawerHost">
             <materialDesign:DrawerHost.LeftDrawerContent>
                 <StackPanel Width="170" Margin="5" VerticalAlignment="Top">
-                    <ToggleButton Style="{StaticResource MaterialDesignHamburgerToggleButton}" 
+                    <ToggleButton Style="{StaticResource MaterialDesignHamburgerToggleButton}"
                               IsChecked="{Binding IsLeftDrawerOpen, ElementName=DrawerHost}"
-                              HorizontalAlignment="Right"/>
-                    <Button Content="{x:Static p:Resources.MainLibrary}" Margin="0,0,0,10"  Command="{x:Static materialDesign:DrawerHost.CloseDrawerCommand}" CommandParameter="{x:Static Dock.Left}" Click="BtnLibrary" FontFamily="Microsoft YaHei UI"/>
-                    <Button Content="{x:Static p:Resources.AddGame}" Margin="0,0,0,10" Command="{x:Static materialDesign:DrawerHost.CloseDrawerCommand}" CommandParameter="{x:Static Dock.Left}" Click="BtnAddGame" FontFamily="Microsoft YaHei UI"/>
+                              HorizontalAlignment="Right" />
+                    <Button Content="{x:Static p:Resources.MainLibrary}" Margin="0,0,0,10"  Command="{x:Static materialDesign:DrawerHost.CloseDrawerCommand}" CommandParameter="{x:Static Dock.Left}" Click="BtnLibrary" FontFamily="Microsoft YaHei UI" />
+                    <Button Content="{x:Static p:Resources.AddGame}" Margin="0,0,0,10" Command="{x:Static materialDesign:DrawerHost.CloseDrawerCommand}" CommandParameter="{x:Static Dock.Left}" Click="BtnAddGame" FontFamily="Microsoft YaHei UI" />
                     <Button Content="{x:Static p:Resources.MainSettings}" Margin="0,0,0,10" Command="{x:Static materialDesign:DrawerHost.CloseDrawerCommand}" CommandParameter="{x:Static Dock.Left}" Click="BtnSettings" FontFamily="Microsoft YaHei UI" />
-                    <Button Content="{x:Static p:Resources.MainAbout}" Margin="0,0,0,10" Command="{x:Static materialDesign:DrawerHost.CloseDrawerCommand}" CommandParameter="{x:Static Dock.Left}" Click="BtnAbout" FontFamily="Microsoft YaHei UI"/>
-                    <Button Content="{x:Static p:Resources.MainQuit}" Margin="0,0,0,10" Command="{x:Static materialDesign:DrawerHost.CloseDrawerCommand}" CommandParameter="{x:Static Dock.Left}" Click="BtnQuit" VerticalAlignment="Bottom" FontFamily="Microsoft YaHei UI"/>
+                    <Button Content="{x:Static p:Resources.MainAbout}" Margin="0,0,0,10" Command="{x:Static materialDesign:DrawerHost.CloseDrawerCommand}" CommandParameter="{x:Static Dock.Left}" Click="BtnAbout" FontFamily="Microsoft YaHei UI" />
+                    <Button Content="{x:Static p:Resources.MainQuit}" Margin="0,0,0,10" Command="{x:Static materialDesign:DrawerHost.CloseDrawerCommand}" CommandParameter="{x:Static Dock.Left}" Click="BtnQuit" VerticalAlignment="Bottom" FontFamily="Microsoft YaHei UI" />
                 </StackPanel>
             </materialDesign:DrawerHost.LeftDrawerContent>
             <Grid>
@@ -53,38 +53,38 @@
                 <materialDesign:ColorZone Padding="5" Mode="PrimaryMid" MouseDown="ColorZone_MouseDown" Height="45">
                     <Grid>
                         <Grid.RowDefinitions>
-                            <RowDefinition Height="3*"/>
-                            <RowDefinition Height="2*"/>
+                            <RowDefinition Height="3*" />
+                            <RowDefinition Height="2*" />
                         </Grid.RowDefinitions>
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="Auto" />
                             <ColumnDefinition Width="377*" />
-                            <ColumnDefinition Width="20*"/>
-                            <ColumnDefinition Width="239*"/>
-                            <ColumnDefinition Width="117*"/>
+                            <ColumnDefinition Width="20*" />
+                            <ColumnDefinition Width="239*" />
+                            <ColumnDefinition Width="117*" />
                         </Grid.ColumnDefinitions>
-                        <ToggleButton x:Name="menuButton" Style="{StaticResource MaterialDesignHamburgerToggleButton}" 
+                        <ToggleButton x:Name="menuButton" Style="{StaticResource MaterialDesignHamburgerToggleButton}"
                                   IsChecked="{Binding IsLeftDrawerOpen, ElementName=DrawerHost}"
-                                  HorizontalAlignment="Left" Margin="0,-2,0,0" Grid.RowSpan="2" Height="Auto"/>
+                                  HorizontalAlignment="Left" Margin="0,-2,0,0" Grid.RowSpan="2" Height="Auto" />
                         <Button x:Name="exitButton" Margin="62,0,10,5" Grid.RowSpan="2" Grid.Column="4" Height="Auto" BorderBrush="#FFB73A3A" Background="#FFB73A3A" Click="BtnQuit">
                             <DockPanel>
-                                <Image Source="/Resources/exit.png"/>
+                                <Image Source="/Resources/exit.png" />
                             </DockPanel>
                         </Button>
                         <Button x:Name="minimizeButton" Margin="10,0,62,5" Grid.RowSpan="2" Grid.Column="4" Height="Auto" BorderBrush="#FF2E9CCF" Background="#FF2E9CCF" Click="BtnMinimize">
                             <DockPanel>
-                                <Image Source="/Resources/minimize.png"/>
+                                <Image Source="/Resources/minimize.png" />
                             </DockPanel>
                         </Button>
                         <TextBlock x:Name="WebSource"
-                               VerticalAlignment="Center" 
-                               Grid.Column="1" Text="TPUI Lite" Margin="232,6,10,5" FontSize="20" Grid.RowSpan="2" Height="24" />
+                               VerticalAlignment="Center"
+                               Grid.Column="1" Text="Xenon Launcher" Margin="222,6,10,5" FontSize="20" Grid.RowSpan="2" Height="24" />
                         <TextBlock x:Name="versionText"
-                        VerticalAlignment="Center" 
+                        VerticalAlignment="Center"
                         Grid.Column="3" Text="X.X.X.XX" Margin="10,6,10,5" FontSize="20" Grid.RowSpan="2" Height="24" />
                     </Grid>
                 </materialDesign:ColorZone>
-                <ContentControl x:Name="contentControl" Grid.Row="1"/>
+                <ContentControl x:Name="contentControl" Grid.Row="1" />
             </Grid>
         </materialDesign:DrawerHost>
     </materialDesign:DialogHost>

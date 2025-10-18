@@ -1,6 +1,6 @@
 ﻿using Linearstar.Windows.RawInput;
 using MahApps.Metro.Controls;
-using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -33,6 +33,7 @@ namespace TeknoParrotUi.Views
         private readonly bool _isTest;
         private readonly string _gameLocation;
         private readonly string _gameLocation2;
+        private readonly string _gameLocation3;
         private readonly SerialPortHandler _serialPortHandler;
         private readonly GameProfile _gameProfile;
         private static bool _runEmuOnly;
@@ -46,15 +47,19 @@ namespace TeknoParrotUi.Views
         private Library _library;
         private string loaderExe;
         private string loaderDll;
-        const int killIDZ_ID = 1;
+        private const int killIDZ_ID = 1;
         private HwndSource _source;
         private InputApi _inputApi = InputApi.DirectInput;
         private bool _twoExes;
+        private bool _threeExes;
         private bool _secondExeFirst;
         private string _secondExeArguments;
+        private string _thirdExeArguments;
         private bool _isProcessing = false;
+        private int _runMaxiTerminal;
+        private Process _thirdProcess = null;
 #if DEBUG
-        DebugJVS jvsDebug;
+        private DebugJVS jvsDebug;
 #endif
 
         public GameRunning(GameProfile gameProfile, string loaderExe, string loaderDll, bool isTest, bool runEmuOnly = false, bool profileLaunch = false, Library library = null)
@@ -69,6 +74,27 @@ namespace TeknoParrotUi.Views
 
             if (inputApiString != null)
                 _inputApi = (InputApi)Enum.Parse(typeof(InputApi), inputApiString);
+
+            if (gameProfile.EmulationProfile != EmulationProfile.NamcoWmmt3)
+            {
+                // Check run MaxiTerminal or not
+                _runMaxiTerminal = int.Parse(gameProfile.ConfigValues.Find(cv => cv.FieldName == "Run Maxi Terminal Emulation")?.FieldValue);
+
+                if (!string.IsNullOrEmpty(gameProfile.GamePath2))
+                {
+                    _gameLocation2 = gameProfile.GamePath2;
+                    _secondExeFirst = gameProfile.LaunchSecondExecutableFirst;
+                }
+                if (!string.IsNullOrEmpty(gameProfile.GamePath3))
+                {
+                    _gameLocation3 = gameProfile.GamePath3;
+                }
+
+                _twoExes = gameProfile.HasTwoExecutables;
+                _threeExes = gameProfile.HasThreeExecutables;
+                _secondExeArguments = gameProfile.SecondExecutableArguments;
+                _thirdExeArguments = gameProfile.ThirdExecutableArguments;
+            }
 
             textBoxConsole.Text = "";
             _runEmuOnly = runEmuOnly;
@@ -308,6 +334,10 @@ namespace TeknoParrotUi.Views
         private void WriteConfigIni()
         {
             var lameFile = "";
+
+            lameFile += "[TeknoParrotUi]\n";
+            lameFile += "exeLocation=" + System.Reflection.Assembly.GetExecutingAssembly().Location + "\n";
+
             var categories = _gameProfile.ConfigValues.Select(x => x.CategoryName).Distinct().ToList();
             lameFile += "[GlobalHotkeys]\n";
             lameFile += "ExitKey=" + Lazydata.ParrotData.ExitGameKey + "\n";
@@ -328,6 +358,11 @@ namespace TeknoParrotUi.Views
             {
                 File.WriteAllText(Path.Combine(Path.GetDirectoryName(_gameLocation2) ?? throw new InvalidOperationException(), "teknoparrot.ini"), lameFile);
             }
+
+            if (_threeExes && !string.IsNullOrEmpty(_gameLocation3))
+            {
+                File.WriteAllText(Path.Combine(Path.GetDirectoryName(_gameLocation3) ?? throw new InvalidOperationException(), "teknoparrot.ini"), lameFile);
+            }
         }
 
         private void GameRunning_OnLoaded(object sender, RoutedEventArgs e)
@@ -339,24 +374,29 @@ namespace TeknoParrotUi.Views
                     if (_pipe == null)
                         _pipe = new EuropaRPipe();
                     break;
+
                 case EmulationProfile.EuropaRSegaRally3:
                     if (_pipe == null)
                         _pipe = new SegaRallyPipe();
                     break;
+
                 case EmulationProfile.FastIo:
                     if (_pipe == null)
                         _pipe = new FastIOPipe();
                     break;
+
                 case EmulationProfile.ALLS:
                 case EmulationProfile.ALLSHOTDSD:
                 case EmulationProfile.ALLSSWDC:
                     if (_pipe == null)
                         _pipe = new ALLSUsbIoPipe();
                     break;
+
                 case EmulationProfile.Theatrhythm:
                     if (_pipe == null)
                         _pipe = new FastIOPipe();
                     break;
+
                 case EmulationProfile.APM3:
                 case EmulationProfile.APM3Direct:
                 case EmulationProfile.GuiltyGearAPM3:
@@ -389,87 +429,113 @@ namespace TeknoParrotUi.Views
                 case EmulationProfile.Nirin:
                     _controlSender = new DeadHeatPipe();
                     break;
+
                 case EmulationProfile.NamcoPokken:
                     _controlSender = new Pokken();
                     break;
+
                 case EmulationProfile.ExBoard:
                     _controlSender = new ExBoard();
                     break;
+
                 case EmulationProfile.ALLSHOTDSD:
                     _controlSender = new HOTDSDPipe();
                     break;
+
                 case EmulationProfile.GtiClub3:
                     _controlSender = new GtiClub3();
                     break;
+
                 case EmulationProfile.Daytona3:
                     _controlSender = new Daytona3();
                     break;
+
                 case EmulationProfile.GRID:
                     _controlSender = new GRID();
                     break;
+
                 case EmulationProfile.RawThrillsFNF:
                 case EmulationProfile.BlazingAngels:
                     _controlSender = new RawThrills(false);
                     break;
+
                 case EmulationProfile.RawThrillsFNFH2O:
                     _controlSender = new RawThrills(true);
                     break;
+
                 case EmulationProfile.LuigisMansion:
                     _controlSender = new LuigisMansion();
                     break;
+
                 case EmulationProfile.LostLandAdventures:
                     _controlSender = new LostLandPipe();
                     break;
+
                 case EmulationProfile.GHA:
                     _controlSender = new GHA();
                     break;
+
                 case EmulationProfile.SegaToolsIDZ:
                     _controlSender = new SegaTools();
                     break;
+
                 case EmulationProfile.TokyoCop:
                 case EmulationProfile.RingRiders:
                 case EmulationProfile.RadikalBikers:
                     _controlSender = new GaelcoPipe();
                     break;
+
                 case EmulationProfile.StarTrekVoyager:
                     _controlSender = new StarTrekVoyagerPipe();
                     break;
+
                 case EmulationProfile.SegaInitialD:
                 case EmulationProfile.SegaInitialDLindbergh:
                     if (RealGearShiftID)
                         _controlSender = new SegaInitialDPipe();
                     break;
+
                 case EmulationProfile.TaitoTypeXBattleGear:
                     if (ProMode)
                         _controlSender = new BG4ProPipe();
                     break;
+
                 case EmulationProfile.AliensExtermination:
                     _controlSender = new AliensExterminationPipe();
                     break;
+
                 case EmulationProfile.Contra:
                     _controlSender = new ContraPipe();
                     break;
+
                 case EmulationProfile.NamcoMkdx:
                     _controlSender = new BanapassButton();
                     break;
+
                 case EmulationProfile.FarCry:
                     _controlSender = new FarCryPipe();
                     break;
+
                 case EmulationProfile.SilentHill:
                     _controlSender = new SilentHillPipe();
                     break;
+
                 case EmulationProfile.Taiko:
                     _controlSender = new TaikoPipe();
                     break;
+
                 case EmulationProfile.WartranTroopers:
                     _controlSender = new WartranTroopersPipe();
                     break;
+
                 case EmulationProfile.TimeCrisis5:
                     _controlSender = new TC5Pipe();
                     break;
+
                 case EmulationProfile.FrenzyExpress:
                     _controlSender = new FrenzyExpressPipe();
                     break;
+
                 case EmulationProfile.AAA:
                     _controlSender = new AAAPipe();
                     break;
@@ -508,6 +574,7 @@ namespace TeknoParrotUi.Views
                         JvsPackageEmulator.Taito = true;
                         JvsPackageEmulator.JvsSwitchCount = 0x18;
                         break;
+
                     case EmulationProfile.TaitoTypeXBattleGear:
                         JvsPackageEmulator.JvsVersion = 0x30;
                         JvsPackageEmulator.TaitoStick = true;
@@ -519,15 +586,18 @@ namespace TeknoParrotUi.Views
                         JvsPackageEmulator.TaitoBattleGear = true;
                         JvsPackageEmulator.JvsSwitchCount = 0x18;
                         break;
+
                     case EmulationProfile.TaitoTypeXGeneric:
                         JvsPackageEmulator.JvsVersion = 0x30;
                         JvsPackageEmulator.TaitoStick = true;
                         JvsPackageEmulator.JvsSwitchCount = 0x18;
                         break;
+
                     case EmulationProfile.BorderBreak:
                         InputCode.AnalogBytes[0] = 0x7F; // Center analog
                         InputCode.AnalogBytes[2] = 0x7F; // Center analog
                         break;
+
                     case EmulationProfile.NamcoPokken:
                         JvsPackageEmulator.JvsVersion = 0x31;
                         JvsPackageEmulator.JvsCommVersion = 0x31;
@@ -535,6 +605,7 @@ namespace TeknoParrotUi.Views
                         JvsPackageEmulator.JvsIdentifier = JVSIdentifiers.NBGI_Pokken;
                         JvsPackageEmulator.Namco = true;
                         break;
+
                     case EmulationProfile.NamcoWmmt5:
                     case EmulationProfile.NamcoMkdx:
                     case EmulationProfile.NamcoMkdxUsa:
@@ -546,6 +617,7 @@ namespace TeknoParrotUi.Views
                         JvsPackageEmulator.Namco = true;
                         JvsPackageEmulator.JvsSwitchCount = 0x18;
                         break;
+
                     case EmulationProfile.NamcoMachStorm:
                         JvsPackageEmulator.JvsVersion = 0x31;
                         JvsPackageEmulator.JvsCommVersion = 0x31;
@@ -554,6 +626,7 @@ namespace TeknoParrotUi.Views
                         JvsPackageEmulator.Namco = true;
                         JvsPackageEmulator.JvsSwitchCount = 0x18;
                         break;
+
                     case EmulationProfile.DevThing1:
                         JvsPackageEmulator.JvsVersion = 0x30;
                         JvsPackageEmulator.TaitoStick = true;
@@ -561,12 +634,15 @@ namespace TeknoParrotUi.Views
                         JvsPackageEmulator.DualJvsEmulation = true;
                         JvsPackageEmulator.JvsSwitchCount = 0x18;
                         break;
+
                     case EmulationProfile.VirtuaTennis4:
                         JvsPackageEmulator.DualJvsEmulation = true;
                         break;
+
                     case EmulationProfile.ArcadeLove:
                         JvsPackageEmulator.DualJvsEmulation = true;
                         break;
+
                     case EmulationProfile.LGS:
                         JvsPackageEmulator.JvsCommVersion = 0x30;
                         JvsPackageEmulator.JvsVersion = 0x30;
@@ -575,6 +651,7 @@ namespace TeknoParrotUi.Views
                         JvsPackageEmulator.LetsGoSafari = true;
                         JvsPackageEmulator.JvsSwitchCount = 0x16;
                         break;
+
                     case EmulationProfile.Hotd4:
                         JvsPackageEmulator.Hotd4 = true;
                         break;
@@ -644,12 +721,15 @@ namespace TeknoParrotUi.Views
         // It's ZeroLauncher code that I give full permission to be used here, now people can't have a cry "reeee stole code" - nzgamer
         [DllImport("kernel32.dll", SetLastError = true)]
         [return: MarshalAs(UnmanagedType.Bool)]
-        static extern bool AllocConsole();
+        private static extern bool AllocConsole();
+
         [DllImport("kernel32.dll", SetLastError = true)]
         [return: MarshalAs(UnmanagedType.Bool)]
-        static extern bool FreeConsole();
+        private static extern bool FreeConsole();
+
         [DllImport("kernel32.dll")]
-        static extern bool SetConsoleTitle(string lpConsoleTitle);
+        private static extern bool SetConsoleTitle(string lpConsoleTitle);
+
         private void bootMinime()
         {
             var psiNpmRunDist = new ProcessStartInfo
@@ -657,7 +737,6 @@ namespace TeknoParrotUi.Views
                 FileName = "cmd",
                 RedirectStandardInput = true,
                 WorkingDirectory = ".\\SegaTools\\minime"
-
             };
             //psiNpmRunDist.CreateNoWindow = true;
             psiNpmRunDist.UseShellExecute = false;
@@ -696,180 +775,386 @@ namespace TeknoParrotUi.Views
 
         private async Task CreateGameProcess()
         {
-            if (_gameProfile.GameName.Contains("Wangan Midnight Maximum Tune"))
-            {
-                // 杀死残留进程
-                string[] processesToKill = { "OpenParrotLoader64", "AMAuthd" };
+            string game = "";
+            string gameName = _gameProfile.GameName;
 
-                foreach (var procName in processesToKill)
+            // 如果开启了需要检查更新
+            if (int.Parse(_gameProfile.ConfigValues.Find(cv => cv.FieldName == "Check Update")?.FieldValue) == 1)
+            {
+                var checkGameUpdate = new CheckGameUpdate();
+                checkGameUpdate.Show();
+
+                // 获取需要更新的文件列表
+                if (gameName == "Wangan Midnight Maximum Tune 5") game = "WM5";
+                else if (gameName == "Wangan Midnight Maximum Tune 5DX") game = "W5X";
+                else if (gameName == "Wangan Midnight Maximum Tune 5DX Plus") game = "W5P";
+                else if (gameName == "Wangan Midnight Maximum Tune 6") game = "WM6";
+                else if (gameName == "Wangan Midnight Maximum Tune 6R") game = "W6R";
+                else if (gameName == "Wangan Midnight Maximum Tune 6RR") game = "W6W";
+                else if (gameName == "Wangan Midnight Maximum Tune 6RR Plus") game = "W6P";
+                else game = "";
+
+                string configPath1 = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "mtx_config.json");
+                bool isConfigExist = true;
+                if (File.Exists(configPath1))
                 {
-                    var processes = Process.GetProcessesByName(procName);
-                    foreach (var proc in processes)
+                    try
                     {
-                        try
+                        string jsonText = File.ReadAllText(configPath1);
+                        JArray arr = JArray.Parse(jsonText);
+
+                        foreach (var item in arr)
                         {
-                            proc.Kill();
-                            proc.WaitForExit();
-                        }
-                        catch (Exception ex)
-                        {
-                            MessageBox.Show($"关闭进程 {procName}.exe 时发生错误：{ex.Message}");
+                            string presetGame = item["presetGame"]?.ToString();
+                            if (presetGame == game)
+                            {
+                                isConfigExist = true;
+                            }
+                            else
+                            {
+                                isConfigExist = false;
+                            }
                         }
                     }
-                }
-
-                // WMMT Updater
-                string basePath = ""; // 基准路径
-                string gameVersion = ""; // 游戏版本
-                bool updateCheck = false;
-                List<FileCheckItem> filesToCheck = new List<FileCheckItem>();
-
-                if (_gameProfile.GameName.Contains("5DX"))
-                {
-                    gameVersion = "5DX";
-                    int idx = _gameLocation.IndexOf("wmn5r.exe", StringComparison.OrdinalIgnoreCase);
-                    basePath = _gameLocation.Substring(0, idx);
-
-                    filesToCheck.Add(new FileCheckItem(Path.Combine(basePath, "OpenBanaW5X.dll")));
-                    filesToCheck.Add(new FileCheckItem(Path.Combine(basePath, @"data_jp\menu\Zenichi\ZenichiConfig.lua")));
-                    filesToCheck.Add(new FileCheckItem(Path.Combine(basePath, @"data\ghost\lua\ghost_expedition_sugoroku.lua")));
-
-                    updateCheck = true;
-                }
-                else if (_gameProfile.GameName.Contains("6RR"))
-                {
-                    gameVersion = "6RR";
-                    int idx = _gameLocation.IndexOf("wmn6r.exe", StringComparison.OrdinalIgnoreCase);
-                    basePath = _gameLocation.Substring(0, idx);
-
-                    filesToCheck.Add(new FileCheckItem(Path.Combine(basePath, "bngrw.dll")));
-                    filesToCheck.Add(new FileCheckItem(Path.Combine(basePath, @"data_jp\menu\Zenichi\ZenichiConfig.lua")));
-                    filesToCheck.Add(new FileCheckItem(Path.Combine(basePath, @"data_jp\platform_parameters\lua\ghost_expedition_sugoroku.lua")));
-
-                    updateCheck = true;
+                    catch
+                    {
+                        isConfigExist = false;
+                        MessageBox.Show("mtx_config.json文件存在错误\n请删除该文件后再试");
+                        Application.Current.Windows.OfType<MainWindow>().Single().contentControl.Content = _library;
+                        return;
+                    }
                 }
                 else
                 {
-                    updateCheck = false;
+                    isConfigExist = false;
                 }
 
-                if (updateCheck)
+                string updateServerUrl = _gameProfile.ConfigValues.Find(cv => cv.FieldName == "Update Server Address").FieldValue;
+                string fileServerUrl = _gameProfile.ConfigValues.Find(cv => cv.FieldName == "File Server Address").FieldValue;
+                string apiUrl = $"{updateServerUrl}?game={game}&isConfigExist={isConfigExist}";
+
+                using (HttpClient client = new HttpClient())
                 {
-                    // 计算 MD5
-                    foreach (var item in filesToCheck)
-                    {
-                        if (File.Exists(item.path))
-                        {
-                            item.md5 = GetFileMd5(item.path);
-                            item.filename = Path.GetFileName(item.path);
-                        }
-                    }
-
-                    // 构造发送内容
-                    var payload = new
-                    {
-                        version = gameVersion,
-                        files = filesToCheck
-                            .Where(f => !string.IsNullOrEmpty(f.md5))
-                            .Select(f => new { f.filename, f.md5 })
-                    };
-
-                    var checkGameUpdate = new CheckGameUpdate();
-                    checkGameUpdate.Show();
-
-                    CancellationTokenSource cts = new CancellationTokenSource();
-                    bool requestSuccess = false;
-                    string updateInfo = null;
-                    UpdateResponse updateResponse = null;
-
                     try
                     {
-                        using (HttpClient client = new HttpClient())
+                        HttpResponseMessage response = await client.GetAsync(apiUrl);
+                        response.EnsureSuccessStatusCode();
+
+                        string result = await response.Content.ReadAsStringAsync();
+
+                        var json = JObject.Parse(result);
+                        bool success = (bool)(json["success"]);
+
+                        // 如果出现了问题
+                        if (!success)
                         {
-                            client.Timeout = TimeSpan.FromSeconds(10);
+                            checkGameUpdate.Close();
+                            var getUpdateInfoUnsuccessfulDialog = MessageBox.Show(
+                                $"更新失败，原因：\n{(string)(json["message"])}\n是否要直接启动游戏？",
+                                "获取更新信息失败",
+                                MessageBoxButton.YesNo,
+                                MessageBoxImage.Warning
+                            );
 
-                            var json = JsonConvert.SerializeObject(payload);
-                            var content = new StringContent(json, System.Text.Encoding.UTF8, "application/json");
-
-                            HttpResponseMessage response = null;
-                            try
+                            if (getUpdateInfoUnsuccessfulDialog == MessageBoxResult.No)
                             {
-                                await Task.Delay(1000); // 强制刷新UI
-
-                                response = await client.PostAsync("https://xrs-network.kksk03.site:2083/api/checkUpdate", content);
-                                response.EnsureSuccessStatusCode();
-
-                                updateInfo = await response.Content.ReadAsStringAsync();
-                                requestSuccess = true;
-
-                                updateResponse = JsonConvert.DeserializeObject<UpdateResponse>(updateInfo);
+                                // 跳转回主页
+                                Application.Current.Windows.OfType<MainWindow>().Single().contentControl.Content = _library;
+                                return;
                             }
-                            catch (TaskCanceledException ex)
+                        }
+                        else
+                        {
+                            checkGameUpdate.Close();
+                            bool allowUpdate = (bool)(json["allowUpdate"]);
+                            bool updateConfig = (bool)(json["updateConfig"]);
+
+                            if (updateConfig || allowUpdate)
                             {
-                                // 捕获超时异常
-                                if (!cts.Token.IsCancellationRequested)
+                                var mtConfig = json["mtConfig"];
+                                string gameVersion = (string)mtConfig["softwareRevision"];
+                                var updateWindow = new UpdateWindow(gameVersion);
+                                updateWindow.Show();
+
+                                // 如果需要更新终端机配置文件
+                                if (updateConfig)
                                 {
-                                    MessageBox.Show("请求超时，请稍后重试！");
+                                    updateWindow.UpdateCurrentFile("mtx_config.json");
+                                    updateWindow.UpdateProgress(1, 1);
+
+                                    string configPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "mtx_config.json");
+
+                                    // 更新终端机预设文件
+                                    mtConfig["presetGame"] = game;
+
+                                    // 放到数组第一项
+                                    JArray array;
+                                    if (File.Exists(configPath))
+                                    {
+                                        try
+                                        {
+                                            string jsonText = File.ReadAllText(configPath);
+                                            array = JArray.Parse(jsonText);
+                                        }
+                                        catch
+                                        {
+                                            // 如果解析失败就重新创建一个空数组
+                                            array = new JArray();
+                                        }
+                                    }
+                                    else
+                                    {
+                                        array = new JArray();
+                                    }
+                                    bool found = false;
+
+                                    // 遍历现有项，查找 presetGame 是否已存在
+                                    for (int i = 0; i < array.Count; i++)
+                                    {
+                                        var item = array[i] as JObject;
+                                        if (item != null && item["presetGame"] != null && item["presetGame"].ToString() == game)
+                                        {
+                                            // 找到了相同的 presetGame，更新整项
+                                            array[i] = mtConfig;
+                                            found = true;
+                                            break;
+                                        }
+                                    }
+
+                                    if (!found)
+                                    {
+                                        array.Add(mtConfig);
+                                    }
+
+                                    // 写入 mtx_config.json
+                                    File.WriteAllText(configPath, array.ToString());
                                 }
-                                requestSuccess = false;
-                            }
-                            catch (Exception ex)
-                            {
-                                // 其他异常处理
-                                MessageBox.Show("请求异常：" + ex.Message);
-                                requestSuccess = false;
+
+                                // 如果需要更新
+                                if (allowUpdate)
+                                {
+                                    // 遍历返回的文件列表，对文件进行md5校验比对，检查出需要进行更新的文件列表
+                                    var needUpdateFiles = json["needUpdateFiles"];
+
+                                    Debug.WriteLine(needUpdateFiles);
+
+                                    string gameRootPath = Path.GetDirectoryName(_gameLocation);
+
+                                    List<string> filesToUpdate = new List<string>();
+                                    foreach (var fileInfo in needUpdateFiles)
+                                    {
+                                        string relativePath = (string)fileInfo["path"];
+                                        string expectedMd5 = (string)fileInfo["md5"];
+
+                                        // 拼接完整文件路径
+                                        string fullPath = Path.Combine(gameRootPath, relativePath);
+
+                                        // 判断文件是否存在
+                                        if (!File.Exists(fullPath))
+                                        {
+                                            // 文件不存在也视为需要更新
+                                            filesToUpdate.Add(relativePath);
+                                            continue;
+                                        }
+
+                                        // 计算本地文件MD5
+                                        string localMd5;
+                                        using (var md5 = System.Security.Cryptography.MD5.Create())
+                                        using (var stream = File.OpenRead(fullPath))
+                                        {
+                                            byte[] hash = md5.ComputeHash(stream);
+                                            localMd5 = BitConverter.ToString(hash).Replace("-", "").ToLowerInvariant();
+                                        }
+
+                                        // 比较MD5
+                                        if (!string.Equals(localMd5, expectedMd5, StringComparison.OrdinalIgnoreCase))
+                                        {
+                                            filesToUpdate.Add(relativePath);
+                                        }
+                                    }
+
+                                    // 打印结果
+                                    if (filesToUpdate.Count > 0)
+                                    {
+                                        Debug.WriteLine("需要更新的文件数量：" + filesToUpdate.Count);
+
+                                        using (var httpClient = new HttpClient())
+                                        {
+                                            int totalFiles = filesToUpdate.Count;
+                                            int currentIndex = 0;
+
+                                            foreach (var relativePath in filesToUpdate)
+                                            {
+                                                currentIndex++;
+                                                try
+                                                {
+                                                    // 拼接请求 URL
+                                                    string fileUrl = $"{fileServerUrl}?game={game}&path={Uri.EscapeDataString(relativePath)}";
+
+                                                    // 拼接目标文件路径
+                                                    string localFilePath = Path.Combine(gameRootPath, relativePath);
+
+                                                    // 确保目录存在
+                                                    string directory = Path.GetDirectoryName(localFilePath);
+                                                    if (!Directory.Exists(directory))
+                                                    {
+                                                        Directory.CreateDirectory(directory);
+                                                    }
+
+                                                    updateWindow.UpdateCurrentFile(relativePath);
+                                                    updateWindow.UpdateProgress(currentIndex, totalFiles);
+
+                                                    Debug.WriteLine("正在下载：" + fileUrl);
+
+                                                    // 发送请求获取文件
+                                                    var response_file = await httpClient.GetAsync(fileUrl);
+                                                    response_file.EnsureSuccessStatusCode();
+
+                                                    // 读取文件内容
+                                                    var fileBytes = await response_file.Content.ReadAsByteArrayAsync();
+
+                                                    // 写入文件
+                                                    File.WriteAllBytes(localFilePath, fileBytes);
+
+                                                    Debug.WriteLine("已更新：" + relativePath);
+                                                }
+                                                catch (Exception ex)
+                                                {
+                                                    MessageBox.Show($"下载文件失败：{relativePath}\n错误：{ex.Message}\n将取消更新，如需关闭更新请前往游戏设置中进行关闭");
+                                                    // 跳转回主页
+                                                    Application.Current.Windows.OfType<MainWindow>().Single().contentControl.Content = _library;
+                                                    return;
+                                                }
+                                            }
+                                        }
+                                        Debug.WriteLine("所有文件均已更新完毕");
+                                        updateWindow.Close();
+                                    }
+                                    else
+                                    {
+                                        Debug.WriteLine($"所有文件均为最新状态");
+                                        updateWindow.Close();
+                                    }
+                                }
+                                else
+                                {
+                                    updateWindow.Close();
+                                }
                             }
                         }
                     }
-                    catch (Exception)
-                    {
-                        requestSuccess = false;
-                    }
-                    finally
+                    catch (Exception ex)
                     {
                         checkGameUpdate.Close();
-                    }
-
-                    if (!requestSuccess)
-                    {
-                        var result = MessageBox.Show(
-                            "获取更新信息失败，是否要直接启动游戏？",
-                            "更新失败",
+                        var getUpdateInfoErrorDialog = MessageBox.Show(
+                            $"请求更新信息失败，原因：\n{ex.Message}\n是否要直接启动游戏？",
+                            "获取更新信息失败",
                             MessageBoxButton.YesNo,
                             MessageBoxImage.Warning
                         );
 
-                        if (result == MessageBoxResult.No)
+                        if (getUpdateInfoErrorDialog == MessageBoxResult.No)
                         {
+                            // 跳转回主页
                             Application.Current.Windows.OfType<MainWindow>().Single().contentControl.Content = _library;
                             return;
-                        }
-                    }
-                    else
-                    {
-                        if (updateResponse != null && updateResponse.updateRequired)
-                        {
-                            var updateWindow = new UpdateWindow(updateResponse.files, basePath);
-                            bool? result = updateWindow.ShowDialog();
-
-                            if (result == false)
-                            {
-                                MessageBox.Show("更新失败");
-                            }
                         }
                     }
                 }
             }
 
+            // 如果需要运行MaxiTerminal
+            if (_runMaxiTerminal == 1 && _gameLocation3 != null)
+            {
+                if (!File.Exists(_gameLocation3))
+                {
+                    MessageBox.Show("终端机模拟启动失败！\n文件不存在：\n" + _gameLocation3);
+                    Application.Current.Windows.OfType<MainWindow>().Single().contentControl.Content = _library;
+                    return;
+                }
 
+                string configPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "mtx_config.json");
 
+                try
+                {
+                    string arguments = "";
 
+                    if (File.Exists(configPath))
+                    {
+                        string jsonText = File.ReadAllText(configPath);
+                        var array = JArray.Parse(jsonText);
 
+                        // 根据 presetGame 查找对应对象
+                        var mtConfig = array.FirstOrDefault(obj => obj["presetGame"]?.ToString() == game) as JObject;
 
+                        if (mtConfig != null)
+                        {
+                            string forceGameVersion = _gameProfile.ConfigValues.Find(cv => cv.FieldName == "Force Use Software Revision").FieldValue;
 
+                            string mtx_softwareRevision = (string)mtConfig["softwareRevision"];
+                            if (!string.IsNullOrWhiteSpace(forceGameVersion))
+                            {
+                                mtx_softwareRevision = forceGameVersion;
+                            }
+                            Debug.WriteLine(mtx_softwareRevision);
 
+                            arguments = $"--lanIP=0.0.0.0 " +
+                                $"--onlineMode={mtConfig["onlineMode"]?.ToString().ToLower()} " +
+                                $"--serverIp={mtConfig["serverIp"]} " +
+                                $"--serverPort={mtConfig["serverPort"]} " +
+                                $"--pcbSerial={mtConfig["pcbSerial"]} " +
+                                $"--softwareRevision={mtx_softwareRevision} " +
+                                $"--year={mtConfig["year"]} " +
+                                $"--month={mtConfig["month"]} " +
+                                $"--pluese={mtConfig["pluese"]} " +
+                                $"--releaseAt={mtConfig["releaseAt"]} " +
+                                $"--version={mtConfig["version"]} " +
+                                "--freeplay=true " +
+                                "--coinChute=1 " +
+                                "--gameCost=4 " +
+                                "--continueCost=4 " +
+                                "--winsAndRemains=true " +
+                                "--fullcourseCost=4 " +
+                                "--eventMode=false " +
+                                "--eventModeCount=4 " +
+                                "--eventModeDist=false " +
+                                "--eventMode_2on2=false " +
+                                "--eventModeSerial=000000000000 " +
+                                "--eventModeSerialEndAt=0 " +
+                                "--eventModeSerialErrorcode=0 " +
+                                "--wasTournamentScheduleSet=false";
 
+                            var startInfo = new ProcessStartInfo
+                            {
+                                FileName = _gameLocation3,
+                                Arguments = arguments,
+                            };
 
+                            _thirdProcess = Process.Start(startInfo);
+                        }
+                        else
+                        {
+                            MessageBox.Show($"配置在读取过程中丢失\n将不启动湾岸终端机");
+                        }
+                    }
+                    else
+                    {
+                        MessageBox.Show($"配置在读取过程中丢失\n将不启动湾岸终端机");
+                    }
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show("MaxiTerminal启动失败：\n" + ex.Message);
+                    Application.Current.Windows.OfType<MainWindow>().Single().contentControl.Content = _library;
+                    return;
+                }
+            }
+            else if (_runMaxiTerminal == 1 && _gameLocation3 == null)
+            {
+                MessageBox.Show("您没有设置MaxiTerminalX.exe程序的位置！\n请在游戏设置中进行设置！\n如不设置，请在游戏设置中取消勾选\"运行湾岸终端机模拟\"！");
+                Application.Current.Windows.OfType<MainWindow>().Single().contentControl.Content = _library;
+                return;
+            }
 
             if (_gameProfile.EmulationProfile == EmulationProfile.SegaToolsIDZ)
             {
@@ -901,12 +1186,15 @@ namespace TeknoParrotUi.Views
                     case EmulationProfile.AfterBurnerClimax:
                         extra = fullscreen ? "-full " : string.Empty;
                         break;
+
                     case EmulationProfile.TaitoTypeXBattleGear:
                         extra = fullscreen ? "_MTS_FULL_SCREEN_ " : string.Empty;
                         break;
+
                     case EmulationProfile.NamcoMachStorm:
                         extra = fullscreen ? "-fullscreen " : string.Empty;
                         break;
+
                     case EmulationProfile.NamcoPokken:
                         if (width != null && short.TryParse(width.FieldValue, out var _width) &&
                             height != null && short.TryParse(height.FieldValue, out var _height))
@@ -915,6 +1203,7 @@ namespace TeknoParrotUi.Views
                                            $"screen_height={_height}\"";
                         }
                         break;
+
                     case EmulationProfile.GuiltyGearRE2:
                         var englishHack = (_gameProfile.ConfigValues.Any(x => x.FieldName == "EnglishHack" && x.FieldValue == "1"));
                         extra = $"\"-SEEKFREELOADINGPCCONSOLE -LANGUAGE={(englishHack ? "ENG" : "JPN")} -NOHOMEDIR -NOSPLASH -NOWRITE -VSYNC -APM -PCTOC -AUTH\"";
@@ -924,6 +1213,7 @@ namespace TeknoParrotUi.Views
                             extra += $"\"ResX={_widthGG} ResY={_heightGG}\"";
                         }
                         break;
+
                     case EmulationProfile.GuiltyGearAPM3:
                         var englishHackAPM3 = (_gameProfile.ConfigValues.Any(x => x.FieldName == "EnglishHack" && x.FieldValue == "1"));
                         extra = $"\"-SEEKFREELOADINGPCCONSOLE -LANGUAGE={(englishHackAPM3 ? "ENG" : "JPN")} -NOHOMEDIR -NOSPLASH -NOWRITE -VSYNC -APM3 -PCTOC -AUTH -TMSDir=.\"";
@@ -1017,7 +1307,6 @@ namespace TeknoParrotUi.Views
                         }
                     }
                 }
-
 
                 ProcessStartInfo info;
 
@@ -1200,7 +1489,6 @@ namespace TeknoParrotUi.Views
                     ths3 = new ThreadStart(() => bootServerbox(Path.GetDirectoryName(_gameProfile.GamePath)));
                     th3 = new Thread(ths3);
                     th3.Start();
-
                 }
 
                 if (Lazydata.ParrotData.SilentMode && _gameProfile.EmulatorType != EmulatorType.Lindbergh &&
@@ -1286,7 +1574,9 @@ namespace TeknoParrotUi.Views
                 }
 
                 if (_twoExes && !_secondExeFirst)
-                    RunAndWait(loaderExe, $"{loaderDll} \"{_gameLocation2}\" {_secondExeArguments}");
+                {
+                    RunAndWait(loaderExe, $"\"{loaderDll}\" \"{_gameLocation2}\" {_secondExeArguments}");
+                }
 
                 //cmdProcess.WaitForExit();
                 bool idzRun = false;
@@ -1302,6 +1592,11 @@ namespace TeknoParrotUi.Views
                     if (_forceQuit)
                     {
                         cmdProcess.Kill();
+
+                        if (_runMaxiTerminal == 1 && _thirdProcess != null)
+                        {
+                            _thirdProcess.Kill();
+                        }
                     }
 
                     if (_gameProfile.EmulationProfile == EmulationProfile.SegaToolsIDZ)
@@ -1316,7 +1611,6 @@ namespace TeknoParrotUi.Views
                                 idzRun = true;
                             }
                         });
-
                     }
 
                     Thread.Sleep(500);
@@ -1341,10 +1635,14 @@ namespace TeknoParrotUi.Views
                         progressBar.IsIndeterminate = false;
                         Application.Current.Windows.OfType<MainWindow>().Single().menuButton.IsEnabled = true;
                     });
+                    if (_runMaxiTerminal == 1 && _thirdProcess != null)
+                    {
+                        _thirdProcess.Kill();
+                    }
                     Application.Current.Dispatcher.Invoke(delegate
-                        {
-                            Application.Current.Windows.OfType<MainWindow>().Single().contentControl.Content = _library;
-                        });
+                    {
+                        Application.Current.Windows.OfType<MainWindow>().Single().contentControl.Content = _library;
+                    });
                 }
                 else
                 {
@@ -1432,7 +1730,6 @@ namespace TeknoParrotUi.Views
 
             return;
         }
-
 
         private static void Register_Dlls(string filePath)
         {
