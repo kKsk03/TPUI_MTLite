@@ -830,6 +830,13 @@ namespace TeknoParrotUi.Views
                 string fileServerUrl = _gameProfile.ConfigValues.Find(cv => cv.FieldName == "FileServerAddress").FieldValue;
                 string apiUrl = $"{updateServerUrl}?game={game}&isConfigExist={isConfigExist}";
 
+                if (string.IsNullOrWhiteSpace(updateServerUrl) || string.IsNullOrWhiteSpace(fileServerUrl))
+                {
+                    MessageBox.Show("您启用了更新检查\n但没有在游戏设置中填入更新服务器地址或文件服务器地址\n请填入后重试或关闭更新检查");
+                    Application.Current.Windows.OfType<MainWindow>().Single().contentControl.Content = _library;
+                    return;
+                }
+
                 using (HttpClient client = new HttpClient())
                 {
                     try
