@@ -124,6 +124,28 @@ namespace TeknoParrotUi.UserControls
                     }
                 }
             }
+
+            var ipField_terminal = _gameProfile.ConfigValues.Find(cv => cv.FieldName == "TerminalLanIP");
+            if (ipField_terminal != null)
+            {
+                ipField_terminal.FieldOptions.Clear();
+                // 添加默认项
+                ipField_terminal.FieldOptions.Add("0.0.0.0");
+                foreach (NetworkInterface ni in NetworkInterface.GetAllNetworkInterfaces())
+                {
+                    if (ni.OperationalStatus == OperationalStatus.Up)
+                    {
+                        var ipProps = ni.GetIPProperties();
+                        foreach (UnicastIPAddressInformation ip in ipProps.UnicastAddresses)
+                        {
+                            if (ip.Address.AddressFamily == AddressFamily.InterNetwork && !IPAddress.IsLoopback(ip.Address)) // 仅IPv4，排除回环地址
+                            {
+                                ipField_terminal.FieldOptions.Add(ip.Address.ToString());
+                            }
+                        }
+                    }
+                }
+            }
         }
 
         private void SelectExecutableForTextBox(object sender, MouseButtonEventArgs e)

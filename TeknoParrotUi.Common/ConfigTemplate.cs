@@ -47,11 +47,13 @@ namespace TeknoParrotUi.Common
             { "Use Keyboard/Button For Axis", "使用键盘操控" },
             { "Keyboard/Button Axis Wheel Sensitivity", "键盘转向灵敏度" },
             { "Keyboard/Button Axis Pedal Sensitivity", "键盘油门刹车灵敏度" },
-            { "Check Update", "启动前检查游戏更新" },
-            { "Update Server Address", "更新服务器地址" },
-            { "File Server Address", "文件服务器地址" },
-            { "Run Maxi Terminal Emulation", "运行湾岸终端机模拟" },
-            { "Force Use Software Revision", "强制设定游戏版本（无特殊情况请留空）" },
+            { "CheckUpdate", "启动前检查游戏更新" },
+            { "UpdateServerAddress", "更新服务器地址" },
+            { "FileServerAddress", "文件服务器地址" },
+            { "RunMaxiTerminalEmulation", "运行湾岸终端机模拟" },
+            { "ForceUseSoftwareRevision", "终端机强制设定版本（无特殊情况留空）" },
+            { "TerminalLanIP", "终端机运行的IP地址" },
+            { "ForceUseSoftwareRevision(Loader)", "认证强制设定版本（无特殊情况留空）" },
         };
 
         public string DisplayCategoryName

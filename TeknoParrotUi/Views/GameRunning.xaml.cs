@@ -78,7 +78,7 @@ namespace TeknoParrotUi.Views
             if (gameProfile.EmulationProfile != EmulationProfile.NamcoWmmt3)
             {
                 // Check run MaxiTerminal or not
-                _runMaxiTerminal = int.Parse(gameProfile.ConfigValues.Find(cv => cv.FieldName == "Run Maxi Terminal Emulation")?.FieldValue);
+                _runMaxiTerminal = int.Parse(gameProfile.ConfigValues.Find(cv => cv.FieldName == "RunMaxiTerminalEmulation")?.FieldValue);
 
                 if (!string.IsNullOrEmpty(gameProfile.GamePath2))
                 {
@@ -779,7 +779,7 @@ namespace TeknoParrotUi.Views
             string gameName = _gameProfile.GameName;
 
             // 如果开启了需要检查更新
-            if (int.Parse(_gameProfile.ConfigValues.Find(cv => cv.FieldName == "Check Update")?.FieldValue) == 1)
+            if (int.Parse(_gameProfile.ConfigValues.Find(cv => cv.FieldName == "CheckUpdate")?.FieldValue) == 1)
             {
                 var checkGameUpdate = new CheckGameUpdate();
                 checkGameUpdate.Show();
@@ -809,10 +809,7 @@ namespace TeknoParrotUi.Views
                             if (presetGame == game)
                             {
                                 isConfigExist = true;
-                            }
-                            else
-                            {
-                                isConfigExist = false;
+                                break;
                             }
                         }
                     }
@@ -829,15 +826,16 @@ namespace TeknoParrotUi.Views
                     isConfigExist = false;
                 }
 
-                string updateServerUrl = _gameProfile.ConfigValues.Find(cv => cv.FieldName == "Update Server Address").FieldValue;
-                string fileServerUrl = _gameProfile.ConfigValues.Find(cv => cv.FieldName == "File Server Address").FieldValue;
+                string updateServerUrl = _gameProfile.ConfigValues.Find(cv => cv.FieldName == "UpdateServerAddress").FieldValue;
+                string fileServerUrl = _gameProfile.ConfigValues.Find(cv => cv.FieldName == "FileServerAddress").FieldValue;
                 string apiUrl = $"{updateServerUrl}?game={game}&isConfigExist={isConfigExist}";
 
                 using (HttpClient client = new HttpClient())
                 {
                     try
                     {
-                        HttpResponseMessage response = await client.GetAsync(apiUrl);
+                        var cts = new CancellationTokenSource(TimeSpan.FromSeconds(5)); // 超时5秒
+                        HttpResponseMessage response = await client.GetAsync(apiUrl, cts.Token);
                         response.EnsureSuccessStatusCode();
 
                         string result = await response.Content.ReadAsStringAsync();
@@ -1007,7 +1005,8 @@ namespace TeknoParrotUi.Views
                                                     Debug.WriteLine("正在下载：" + fileUrl);
 
                                                     // 发送请求获取文件
-                                                    var response_file = await httpClient.GetAsync(fileUrl);
+                                                    var cts_file = new CancellationTokenSource(TimeSpan.FromSeconds(5)); // 超时5秒
+                                                    var response_file = await httpClient.GetAsync(fileUrl, cts_file.Token);
                                                     response_file.EnsureSuccessStatusCode();
 
                                                     // 读取文件内容
@@ -1089,7 +1088,7 @@ namespace TeknoParrotUi.Views
 
                         if (mtConfig != null)
                         {
-                            string forceGameVersion = _gameProfile.ConfigValues.Find(cv => cv.FieldName == "Force Use Software Revision").FieldValue;
+                            string forceGameVersion = _gameProfile.ConfigValues.Find(cv => cv.FieldName == "ForceUseSoftwareRevision").FieldValue;
 
                             string mtx_softwareRevision = (string)mtConfig["softwareRevision"];
                             if (!string.IsNullOrWhiteSpace(forceGameVersion))
@@ -1098,7 +1097,10 @@ namespace TeknoParrotUi.Views
                             }
                             Debug.WriteLine(mtx_softwareRevision);
 
-                            arguments = $"--lanIP=0.0.0.0 " +
+                            string lanIP = _gameProfile.ConfigValues.Find(cv => cv.FieldName == "TerminalLanIP").FieldValue;
+
+                            arguments =
+                                $"--lanIP={lanIP} " +
                                 $"--onlineMode={mtConfig["onlineMode"]?.ToString().ToLower()} " +
                                 $"--serverIp={mtConfig["serverIp"]} " +
                                 $"--serverPort={mtConfig["serverPort"]} " +
