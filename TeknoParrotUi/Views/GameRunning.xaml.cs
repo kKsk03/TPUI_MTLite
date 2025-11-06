@@ -778,6 +778,15 @@ namespace TeknoParrotUi.Views
             string game = "";
             string gameName = _gameProfile.GameName;
 
+            if (gameName == "Wangan Midnight Maximum Tune 5") game = "WM5";
+            else if (gameName == "Wangan Midnight Maximum Tune 5DX") game = "W5X";
+            else if (gameName == "Wangan Midnight Maximum Tune 5DX Plus") game = "W5P";
+            else if (gameName == "Wangan Midnight Maximum Tune 6") game = "WM6";
+            else if (gameName == "Wangan Midnight Maximum Tune 6R") game = "W6R";
+            else if (gameName == "Wangan Midnight Maximum Tune 6RR") game = "W6W";
+            else if (gameName == "Wangan Midnight Maximum Tune 6RR Plus") game = "W6P";
+            else game = "";
+
             // 如果开启了需要检查更新
             if (int.Parse(_gameProfile.ConfigValues.Find(cv => cv.FieldName == "CheckUpdate")?.FieldValue) == 1)
             {
@@ -785,15 +794,6 @@ namespace TeknoParrotUi.Views
                 checkGameUpdate.Show();
 
                 // 获取需要更新的文件列表
-                if (gameName == "Wangan Midnight Maximum Tune 5") game = "WM5";
-                else if (gameName == "Wangan Midnight Maximum Tune 5DX") game = "W5X";
-                else if (gameName == "Wangan Midnight Maximum Tune 5DX Plus") game = "W5P";
-                else if (gameName == "Wangan Midnight Maximum Tune 6") game = "WM6";
-                else if (gameName == "Wangan Midnight Maximum Tune 6R") game = "W6R";
-                else if (gameName == "Wangan Midnight Maximum Tune 6RR") game = "W6W";
-                else if (gameName == "Wangan Midnight Maximum Tune 6RR Plus") game = "W6P";
-                else game = "";
-
                 string configPath1 = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "mtx_config.json");
                 bool isConfigExist = true;
                 if (File.Exists(configPath1))
@@ -1143,12 +1143,12 @@ namespace TeknoParrotUi.Views
                         }
                         else
                         {
-                            MessageBox.Show($"配置在读取过程中丢失\n将不启动湾岸终端机");
+                            MessageBox.Show($"无法读取到对应游戏的配置\n将不启动湾岸终端机");
                         }
                     }
                     else
                     {
-                        MessageBox.Show($"配置在读取过程中丢失\n将不启动湾岸终端机");
+                        MessageBox.Show($"配置文件不存在\n将不启动湾岸终端机");
                     }
                 }
                 catch (Exception ex)
