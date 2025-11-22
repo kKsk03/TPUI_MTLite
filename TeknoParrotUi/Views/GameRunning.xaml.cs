@@ -8,6 +8,7 @@ using System.IO;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
+using System.Reflection;
 using System.Runtime.InteropServices;
 using System.Security.Cryptography;
 using System.Text.RegularExpressions;
@@ -951,6 +952,22 @@ namespace TeknoParrotUi.Views
                                         string relativePath = (string)fileInfo["path"];
                                         string expectedMd5 = (string)fileInfo["md5"];
 
+                                        // Bngrw特殊处理
+                                        if (relativePath == "bngrw.dll")
+                                        {
+                                            if (game == "WM6" || game == "W6R" || game == "W6W" || game == "W6P")
+                                            {
+                                                if (int.Parse(_gameProfile.ConfigValues.Find(cv => cv.FieldName == "UseHardwareCardReader")?.FieldValue) == 1)
+                                                {
+                                                    string gameRootPathForBngrw = Path.GetDirectoryName(_gameLocation);
+                                                    string outPath = Path.Combine(gameRootPathForBngrw, "bngrw.dll");
+                                                    string resourceName = "TeknoParrotUi.Resources.bngrw.dll";
+                                                    ExtractFile(resourceName, outPath);
+                                                    continue;
+                                                }
+                                            }
+                                        }
+
                                         // 拼接完整文件路径
                                         string fullPath = Path.Combine(gameRootPath, relativePath);
 
@@ -1012,8 +1029,8 @@ namespace TeknoParrotUi.Views
                                                     Debug.WriteLine("正在下载：" + fileUrl);
 
                                                     // 发送请求获取文件
-                                                    var cts_file = new CancellationTokenSource(TimeSpan.FromSeconds(5)); // 超时5秒
-                                                    var response_file = await httpClient.GetAsync(fileUrl, cts_file.Token);
+                                                    //var cts_file = new CancellationTokenSource(TimeSpan.FromSeconds(5)); // 超时5秒
+                                                    var response_file = await httpClient.GetAsync(fileUrl);
                                                     response_file.EnsureSuccessStatusCode();
 
                                                     // 读取文件内容
@@ -1867,6 +1884,22 @@ namespace TeknoParrotUi.Views
             public string filename { get; set; }
             public string downloadUrl { get; set; }
             public string filePath { get; set; }
+        }
+
+        private static void ExtractFile(string resourceName, string outputPath)
+        {
+            var assembly = Assembly.GetExecutingAssembly();
+
+            using (var stream = assembly.GetManifestResourceStream(resourceName))
+            {
+                if (stream == null)
+                    throw new Exception("Resource not found: " + resourceName);
+
+                using (var fileStream = new FileStream(outputPath, FileMode.Create, FileAccess.Write))
+                {
+                    stream.CopyTo(fileStream);
+                }
+            }
         }
     }
 }

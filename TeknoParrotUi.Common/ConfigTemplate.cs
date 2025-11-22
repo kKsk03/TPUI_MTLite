@@ -30,6 +30,7 @@ namespace TeknoParrotUi.Common
             { "TerminalEmu", "终端机模拟" },
             { "GameUpdate", "游戏更新" },
             { "Game", "游戏" },
+            { "BanaPassport", "BanaPassport卡" },
         };
 
         private static readonly Dictionary<string, string> FieldTranslations = new Dictionary<string, string>
@@ -54,6 +55,7 @@ namespace TeknoParrotUi.Common
             { "ForceUseSoftwareRevision", "终端机强制设定版本（无特殊情况留空）" },
             { "TerminalLanIP", "终端机运行的IP地址" },
             { "ForceUseSoftwareRevision(Loader)", "认证强制设定版本（无特殊情况留空）" },
+            { "UseHardwareCardReader", "使用外置物理读卡器" },
         };
 
         public string DisplayCategoryName

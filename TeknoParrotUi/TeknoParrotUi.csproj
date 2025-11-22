@@ -508,6 +508,9 @@
   <ItemGroup>
     <Resource Include="Resources\blank_24bit.png" />
   </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Resources\bngrw.dll" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
     <PreBuildEvent>

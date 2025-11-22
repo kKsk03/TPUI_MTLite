@@ -27,7 +27,7 @@ namespace TeknoParrotUi
         private readonly AddGame _addGame;
         private bool _showingDialog;
         private bool _allowClose;
-        private string _tpVersion = "v1.1"; // 每次更新记得改版本
+        private string _tpVersion = "v1.2"; // 每次更新记得改版本
 
         public MainWindow()
         {
