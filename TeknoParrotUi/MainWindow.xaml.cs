@@ -1,4 +1,4 @@
-using MaterialDesignThemes.Wpf;
+﻿using MaterialDesignThemes.Wpf;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -27,7 +27,7 @@ namespace TeknoParrotUi
         private readonly AddGame _addGame;
         private bool _showingDialog;
         private bool _allowClose;
-        private string _tpVersion = "v1.3"; // ÿ�θ��¼ǵøİ汾
+        private string _tpVersion = "v1.3.0"; // 每次更新记得改版本
 
         public MainWindow()
         {
