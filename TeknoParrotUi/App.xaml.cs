@@ -157,8 +157,7 @@ namespace TeknoParrotUi
 
         public static bool IsPatreon()
         {
-            var tp = Microsoft.Win32.Registry.CurrentUser.OpenSubKey(@"SOFTWARE\TeknoGods\TeknoParrot");
-            return (tp != null && tp.GetValue("PatreonSerialKey") != null);
+            return true;
         }
 
         private void Application_Startup(object sender, StartupEventArgs e)

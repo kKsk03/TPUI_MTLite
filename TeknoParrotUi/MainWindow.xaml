@@ -71,7 +71,7 @@
                                 <Image Source="/Resources/exit.png" />
                             </DockPanel>
                         </Button>
-                        <Button x:Name="minimizeButton" Margin="10,0,62,5" Grid.RowSpan="2" Grid.Column="4" Height="Auto" BorderBrush="#FF2E9CCF" Background="#FF2E9CCF" Click="BtnMinimize">
+                        <Button x:Name="minimizeButton" Margin="10,0,62,5" Grid.RowSpan="2" Grid.Column="4" Height="Auto" BorderBrush="{DynamicResource PrimaryHueMidBrush}" Background="{DynamicResource PrimaryHueMidBrush}" Click="BtnMinimize">
                             <DockPanel>
                                 <Image Source="/Resources/minimize.png" />
                             </DockPanel>
