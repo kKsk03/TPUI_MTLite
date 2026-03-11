@@ -4,7 +4,7 @@
 > The TeknoParrot source code is a secondary development specifically for a particular server.  
 > 该源码是专为特定服务器所二次开发的
 >
-> This source code and its derivatives are prohibited from being used for any commercial activities.  
+> It is forbidden to use this source code and its compiled software for any commercial activities.  
 > 禁止使用本源码及其产物进行任何商业活动
 
 > [!WARNING]
