@@ -1,5 +1,16 @@
 # TeknoParrotUI
 
+> [!IMPORTANT]
+> The TeknoParrot source code is a secondary development specifically for a particular server.  
+> 该 TeknoParrot 源码是专为特定服务器所二次开发的
+>
+> This source code and its derivatives are prohibited from being used for any commercial activities.  
+> 禁止使用本源码及其产物进行任何商业活动
+
+> [!WARNING]
+> Because a completely new launcher will be developed, the source code will soon cease maintenance.  
+> 由于将进行全新启动器的开发，因此该源码将于不久后停止维护  
+
 Open Source JVS / Other I/O emulator for Windows. Works in collaboration with [TeknoParrot](https://teknoparrot.com) and [OpenParrot](https://github.com/teknogods/OpenParrot).
 
 [TeknoParrot Discord](https://discord.gg/kmWgGDe), development discussion is in the ``#openparrot-dev`` channel.
